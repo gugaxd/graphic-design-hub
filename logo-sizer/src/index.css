@@ -1,0 +1,21 @@
+/* Reset mínimo. A fonte da marca vem de ../../src/styles/fonte.css (compartilhada com o hub);
+   todo o resto vive no bloco CSS de LogoSizer.jsx, junto com os tokens do sistema visual. */
+@import "../../src/styles/fonte.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0a0a0a;
+  -webkit-font-smoothing: antialiased;
+}

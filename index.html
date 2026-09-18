@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="pt-BR" data-tema="escuro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>design tools</title>
+    <meta name="description" content="Ferramentas de design que rodam no navegador: grids modulares, layouts bento, gradientes e redimensionamento de logo." />
+    <script>
+      try {
+        var t = localStorage.getItem("design-tools:tema");
+        if (t === "claro" || t === "escuro") document.documentElement.dataset.tema = t;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

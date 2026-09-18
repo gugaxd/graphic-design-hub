@@ -1,0 +1,283 @@
+/* ==========================================================================
+   Grid Maker — tokens visuais
+   Aplique data-tema="escuro" ou data-tema="claro" no elemento raiz.
+   ========================================================================== */
+
+:root {
+  /* --- Tipografia --- */
+  --gm-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+  --gm-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --gm-size-titulo: 13px;
+  --gm-size-base: 13px;
+  --gm-size-rotulo: 11.5px;
+  --gm-size-valor: 11px;
+  --gm-size-status: 10.5px;
+  --gm-size-nota: 10px;
+  --gm-size-secao: 9.5px;
+
+  --gm-track-titulo: 0.14em;
+  --gm-track-secao: 0.18em;
+  --gm-track-sub: 0.08em;
+  --gm-track-status: 0.06em;
+  --gm-track-nota: 0.03em;
+
+  --gm-lh-nota: 1.6;
+
+  /* --- Forma e espaçamento --- */
+  --gm-radius: 2px;
+  --gm-gap-sm: 6px;
+  --gm-gap-md: 8px;
+  --gm-pad-secao: 16px 18px;
+  --gm-pad-cabecalho: 18px 18px 14px;
+  --gm-pad-botao: 7px 8px;
+  --gm-pad-campo: 3px 5px;
+  --gm-pad-palco: 34px;
+  --gm-espaco-controle: 14px;
+  --gm-largura-painel: 312px;
+  --gm-altura-barra: 46px;
+  --gm-quebra: 860px;
+
+  /* --- Componentes --- */
+  --gm-trilho: 2px;
+  --gm-polegar: 13px;
+  --gm-foco: 2px;
+  --gm-xadrez: 16px;
+
+  /* --- Hub (novos — devolver ao gri.d.maker se virarem padrão) --- */
+  --gm-size-marca: 19px;
+  --gm-size-card: 19px;
+  --gm-size-chamada: 32px;
+  --gm-size-descricao: 12.5px;
+  --gm-lh-descricao: 1.55;
+  --gm-altura-logo: 20px;
+  --gm-botao-icone: 30px;
+  --gm-pad-icone: 6px;
+  --gm-gap-marca: 11px;
+  --gm-gap-card: 18px;
+  --gm-pad-card: 16px 18px 18px;
+  --gm-largura-hub: 1080px;
+  --gm-gap-lg: 12px;
+  --gm-gap-xl: 16px;
+  --gm-pad-rodape: 16px 18px;
+  --gm-gutter-estreito: 16px;
+}
+
+/* ---------------------------------------------------------------- escuro */
+[data-tema="escuro"] {
+  --gm-ink: #0a0a0a;
+  --gm-ink2: #101010;
+  --gm-ink3: #1c1c1c;
+  --gm-line: #2b2b2b;
+  --gm-text: #e8e8e8;
+  --gm-muted: #8c8c8c;
+
+  --gm-cyan: #00a9ce;
+  --gm-mag: #e0218a;
+  --gm-sobre-cyan: #08181c;
+  --gm-sobre-mag: #ffffff;
+  --gm-mag-btn: #d01a7c;
+  --gm-mag-hover: #b81068;
+
+  --gm-stage: #0a0a0a;
+  --gm-stage-alt: #141414;
+  --gm-sombra: rgba(0, 0, 0, 0.6);
+
+  --gm-arte-bg: #101010;
+  --gm-arte-fill: #e0218a;
+  --gm-arte-stroke: #00a9ce;
+}
+
+/* ----------------------------------------------------------------- claro */
+[data-tema="claro"] {
+  --gm-ink: #e9e9e9;
+  --gm-ink2: #f4f4f4;
+  --gm-ink3: #e1e1e1;
+  --gm-line: #d2d2d2;
+  --gm-text: #161616;
+  --gm-muted: #6b6b6b;
+
+  --gm-cyan: #00768f;
+  --gm-mag: #c4136e;
+  --gm-sobre-cyan: #ffffff;
+  --gm-sobre-mag: #ffffff;
+  --gm-mag-btn: #c4136e;
+  --gm-mag-hover: #9c0e54;
+
+  --gm-stage: #ececec;
+  --gm-stage-alt: #e2e2e2;
+  --gm-sombra: rgba(0, 0, 0, 0.13);
+
+  --gm-arte-bg: #f4f4f4;
+  --gm-arte-fill: #d81b84;
+  --gm-arte-stroke: #00768f;
+}
+
+/* ==========================================================================
+   Componentes base — copie o que for útil
+   ========================================================================== */
+
+.gm-painel {
+  width: var(--gm-largura-painel);
+  background: var(--gm-ink2);
+  color: var(--gm-text);
+  font-family: var(--gm-sans);
+  font-size: var(--gm-size-base);
+  border-right: 1px solid var(--gm-line);
+}
+
+.gm-secao {
+  padding: var(--gm-pad-secao);
+  border-bottom: 1px solid var(--gm-line);
+}
+
+.gm-secao-titulo {
+  display: flex;
+  align-items: center;
+  gap: var(--gm-gap-md);
+  margin: 0 0 12px;
+  font-family: var(--gm-mono);
+  font-size: var(--gm-size-secao);
+  letter-spacing: var(--gm-track-secao);
+  text-transform: uppercase;
+  color: var(--gm-cyan);
+}
+.gm-secao-titulo::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--gm-line);
+}
+
+.gm-rotulo {
+  font-size: var(--gm-size-rotulo);
+  color: var(--gm-text);
+}
+
+.gm-valor {
+  font-family: var(--gm-mono);
+  font-size: var(--gm-size-valor);
+  text-align: right;
+  background: var(--gm-ink);
+  border: 1px solid var(--gm-line);
+  color: var(--gm-text);
+  padding: var(--gm-pad-campo);
+  border-radius: var(--gm-radius);
+}
+
+.gm-unidade {
+  font-family: var(--gm-mono);
+  font-size: var(--gm-size-secao);
+  color: var(--gm-muted);
+}
+
+.gm-nota {
+  font-family: var(--gm-mono);
+  font-size: var(--gm-size-nota);
+  line-height: var(--gm-lh-nota);
+  letter-spacing: var(--gm-track-nota);
+  color: var(--gm-muted);
+}
+
+.gm-botao {
+  background: var(--gm-ink);
+  border: 1px solid var(--gm-line);
+  color: var(--gm-text);
+  font-family: var(--gm-mono);
+  font-size: var(--gm-size-valor);
+  padding: var(--gm-pad-botao);
+  border-radius: var(--gm-radius);
+  cursor: pointer;
+}
+.gm-botao:hover {
+  background: var(--gm-cyan);
+  border-color: var(--gm-cyan);
+  color: var(--gm-sobre-cyan);
+}
+.gm-botao:focus-visible {
+  outline: var(--gm-foco) solid var(--gm-cyan);
+  outline-offset: 1px;
+}
+
+.gm-botao--primario {
+  background: var(--gm-mag-btn);
+  border-color: var(--gm-mag-btn);
+  color: var(--gm-sobre-mag);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.gm-botao--primario:hover {
+  background: var(--gm-mag-hover);
+  border-color: var(--gm-mag-hover);
+  color: var(--gm-sobre-mag);
+}
+
+/* Slider — passe --gm-acento por elemento (cyan p/ estrutura, mag p/ atributo) */
+.gm-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: var(--gm-trilho);
+  background: var(--gm-line);
+  border-radius: var(--gm-radius);
+}
+.gm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: var(--gm-polegar);
+  height: var(--gm-polegar);
+  border-radius: 50%;
+  background: var(--gm-acento, var(--gm-cyan));
+  border: 2px solid var(--gm-ink2);
+  cursor: grab;
+}
+.gm-slider::-moz-range-thumb {
+  width: var(--gm-polegar);
+  height: var(--gm-polegar);
+  border-radius: 50%;
+  background: var(--gm-acento, var(--gm-cyan));
+  border: 2px solid var(--gm-ink2);
+  cursor: grab;
+}
+.gm-slider:focus-visible {
+  outline: var(--gm-foco) solid var(--gm-cyan);
+  outline-offset: 4px;
+}
+
+/* Palco com xadrez de transparência */
+.gm-palco {
+  padding: var(--gm-pad-palco);
+  background-color: var(--gm-stage);
+  background-image:
+    linear-gradient(45deg, var(--gm-stage-alt) 25%, transparent 25%, transparent 75%, var(--gm-stage-alt) 75%),
+    linear-gradient(45deg, var(--gm-stage-alt) 25%, transparent 25%, transparent 75%, var(--gm-stage-alt) 75%);
+  background-size: var(--gm-xadrez) var(--gm-xadrez);
+  background-position: 0 0, calc(var(--gm-xadrez) / 2) calc(var(--gm-xadrez) / 2);
+}
+
+.gm-documento {
+  box-shadow: 0 0 0 1px var(--gm-line), 0 20px 60px var(--gm-sombra);
+}
+
+/* Marca de registro — 13px, deslocada 19px para fora do canto */
+.gm-registro {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  pointer-events: none;
+}
+.gm-registro::before,
+.gm-registro::after {
+  content: "";
+  position: absolute;
+  background: var(--gm-cyan);
+  opacity: 0.85;
+}
+.gm-registro::before { left: 6px; top: 0; width: 1px; height: 13px; }
+.gm-registro::after { top: 6px; left: 0; height: 1px; width: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

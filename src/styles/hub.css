@@ -1,0 +1,301 @@
+/* Hub — casca da família + menu de ferramentas.
+   Toda cor, raio e espaçamento vem de tokens.css. */
+
+@import "./fonte.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--gm-stage);
+  color: var(--gm-text);
+  font-family: var(--gm-sans);
+  font-size: var(--gm-size-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+.hub {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------------------------------------------------ cabeçalho */
+.gm-cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gm-gap-lg);
+  padding: var(--gm-pad-cabecalho);
+  background: var(--gm-ink2);
+  border-bottom: 1px solid var(--gm-line);
+}
+.gm-marca {
+  display: flex;
+  align-items: center;
+  gap: var(--gm-gap-marca);
+  min-width: 0;
+  color: var(--gm-text);
+  text-decoration: none;
+}
+.gm-logo {
+  display: block;
+  flex: none;
+  height: var(--gm-altura-logo);
+  width: auto;
+  color: var(--gm-text);
+}
+.gm-risco {
+  flex: none;
+  align-self: stretch;
+  width: 1px;
+  margin: 1px 0;
+  background: var(--gm-line);
+}
+.gm-marca-nome {
+  margin: 0;
+  font-family: "Host Grotesk", var(--gm-sans);
+  font-size: var(--gm-size-marca);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  text-transform: lowercase;
+  color: var(--gm-text);
+}
+.gm-icone {
+  flex: none;
+  width: var(--gm-botao-icone);
+  height: var(--gm-botao-icone);
+  padding: var(--gm-pad-icone);
+  background: var(--gm-ink);
+  border: 1px solid var(--gm-line);
+  border-radius: var(--gm-radius);
+  color: var(--gm-muted);
+  cursor: pointer;
+}
+.gm-icone:hover {
+  background: var(--gm-cyan);
+  border-color: var(--gm-cyan);
+  color: var(--gm-sobre-cyan);
+}
+.gm-icone:focus-visible {
+  outline: var(--gm-foco) solid var(--gm-cyan);
+  outline-offset: 1px;
+}
+.gm-icone svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+}
+
+/* --------------------------------------------------------------- rodapé */
+.gm-rodape {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gm-gap-md) var(--gm-gap-xl);
+  padding: var(--gm-pad-rodape);
+  background: var(--gm-ink2);
+  border-top: 1px solid var(--gm-line);
+  font-family: var(--gm-mono);
+  font-size: var(--gm-size-status);
+  letter-spacing: 0.04em;
+  color: var(--gm-muted);
+}
+.gm-rodape a {
+  color: var(--gm-muted);
+  text-decoration: none;
+}
+.gm-rodape a:hover {
+  color: var(--gm-cyan);
+}
+.gm-rodape a:focus-visible {
+  outline: var(--gm-foco) solid var(--gm-cyan);
+  outline-offset: 2px;
+}
+.gm-rodape-ano {
+  margin-left: auto;
+}
+
+/* ----------------------------------------------------------------- palco */
+.hub-main {
+  flex: 1;
+}
+.hub-conteudo {
+  max-width: var(--gm-largura-hub);
+  margin: 0 auto;
+}
+
+.hub-intro {
+  margin-bottom: var(--gm-pad-palco);
+}
+.hub-chamada {
+  margin: 0 0 var(--gm-gap-lg);
+  font-family: "Host Grotesk", var(--gm-sans);
+  font-size: var(--gm-size-chamada);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--gm-text);
+}
+.hub-intro .gm-nota {
+  margin: 0;
+}
+
+/* ----------------------------------------------------------------- grade */
+.hub-grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  gap: var(--gm-gap-card);
+}
+
+.hub-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--gm-ink2);
+  border: 1px solid var(--gm-line);
+  border-radius: var(--gm-radius);
+  color: var(--gm-text);
+  text-decoration: none;
+  box-shadow: 0 20px 60px var(--gm-sombra);
+}
+a.hub-card:hover {
+  border-color: var(--gm-cyan);
+}
+a.hub-card:focus-visible {
+  outline: var(--gm-foco) solid var(--gm-cyan);
+  outline-offset: 1px;
+}
+
+.hub-card-palco {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--gm-ink);
+  border-bottom: 1px solid var(--gm-line);
+}
+.hub-mini {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* marcas de registro nos cantos da miniatura: linha em repouso, ciano no hover */
+.hub-reg::before,
+.hub-reg::after {
+  background: var(--gm-line);
+  opacity: 1;
+}
+a.hub-card:hover .hub-reg::before,
+a.hub-card:hover .hub-reg::after {
+  background: var(--gm-cyan);
+}
+.hub-reg--no { top: var(--gm-gap-md); left: var(--gm-gap-md); }
+.hub-reg--ne { top: var(--gm-gap-md); right: var(--gm-gap-md); }
+.hub-reg--so { bottom: var(--gm-gap-md); left: var(--gm-gap-md); }
+.hub-reg--se { bottom: var(--gm-gap-md); right: var(--gm-gap-md); }
+
+.hub-card-corpo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--gm-pad-card);
+}
+.hub-card-topo {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--gm-gap-lg);
+  font-family: var(--gm-mono);
+  font-size: var(--gm-size-secao);
+  letter-spacing: var(--gm-track-secao);
+  text-transform: uppercase;
+}
+.hub-card-indice {
+  color: var(--gm-cyan);
+}
+.hub-card-estado {
+  color: var(--gm-muted);
+}
+a.hub-card:hover .hub-card-estado {
+  color: var(--gm-cyan);
+}
+.hub-card-nome {
+  margin: 0 0 var(--gm-gap-md);
+  font-family: "Host Grotesk", var(--gm-sans);
+  font-size: var(--gm-size-card);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  text-transform: lowercase;
+}
+.hub-card-desc {
+  flex: 1;
+  margin: 0 0 var(--gm-gap-xl);
+  font-size: var(--gm-size-descricao);
+  line-height: var(--gm-lh-descricao);
+  color: var(--gm-muted);
+}
+.hub-card-formatos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gm-gap-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hub-card-formatos li {
+  padding: var(--gm-pad-campo);
+  background: var(--gm-ink);
+  border: 1px solid var(--gm-line);
+  border-radius: var(--gm-radius);
+  font-family: var(--gm-mono);
+  font-size: var(--gm-size-nota);
+  letter-spacing: var(--gm-track-nota);
+  color: var(--gm-muted);
+}
+
+.hub-card--breve {
+  box-shadow: none;
+  cursor: default;
+}
+.hub-card--breve .hub-card-palco,
+.hub-card--breve .hub-card-nome,
+.hub-card--breve .hub-card-desc,
+.hub-card--breve .hub-card-formatos {
+  opacity: 0.45;
+}
+
+/* ------------------------------------------------------------ miniaturas */
+.mini-fill { fill: var(--gm-arte-fill); }
+.mini-ciano { fill: var(--gm-arte-stroke); }
+.mini-texto { fill: var(--gm-text); }
+.mini-fundo { fill: var(--gm-arte-bg); }
+.mini-bloco { fill: var(--gm-ink3); stroke: var(--gm-line); stroke-width: 1; }
+.mini-traco { fill: none; stroke: var(--gm-arte-stroke); stroke-width: 1.5; }
+.mini-contorno { fill: none; stroke: var(--gm-line); stroke-width: 1; }
+.mini-cota { fill: none; stroke: var(--gm-cyan); stroke-width: 1; }
+
+/* ---------------------------------------------------------------- quebra */
+@media (max-width: 860px) {
+  .gm-palco {
+    padding: var(--gm-pad-palco) var(--gm-gutter-estreito);
+  }
+  .hub-chamada {
+    font-size: var(--gm-size-card);
+  }
+}
