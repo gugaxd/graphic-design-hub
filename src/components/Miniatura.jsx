@@ -79,7 +79,36 @@ function Logo() {
   );
 }
 
-const DESENHOS = { grid: Grid, bento: Bento, gradient: Gradient, logo: Logo };
+function TresD() {
+  /* cubo isométrico: três faces em tons diferentes, como o palco mostra um sólido */
+  const cx = 80;
+  const topo = 24;
+  const l = 34; /* meia largura */
+  const h = 20; /* meia altura da face do topo */
+  const alt = 30; /* altura das faces laterais */
+  return (
+    <>
+      <path
+        d={`M${cx} ${topo} L${cx + l} ${topo + h} L${cx} ${topo + 2 * h} L${cx - l} ${topo + h} Z`}
+        className="mini-fill"
+      />
+      <path
+        d={`M${cx - l} ${topo + h} L${cx} ${topo + 2 * h} L${cx} ${topo + 2 * h + alt} L${cx - l} ${topo + h + alt} Z`}
+        className="mini-face"
+      />
+      <path
+        d={`M${cx + l} ${topo + h} L${cx} ${topo + 2 * h} L${cx} ${topo + 2 * h + alt} L${cx + l} ${topo + h + alt} Z`}
+        className="mini-face mini-face--clara"
+      />
+      <path
+        d={`M${cx - l} ${topo + h + alt} L${cx} ${topo + 2 * h + alt} L${cx + l} ${topo + h + alt}`}
+        className="mini-traco"
+      />
+    </>
+  );
+}
+
+const DESENHOS = { grid: Grid, bento: Bento, gradient: Gradient, "tres-d": TresD, logo: Logo };
 
 export default function Miniatura({ id }) {
   const Desenho = DESENHOS[id];

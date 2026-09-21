@@ -286,6 +286,8 @@ a.hub-card:hover .hub-card-estado {
 .mini-texto { fill: var(--gm-text); }
 .mini-fundo { fill: var(--gm-arte-bg); }
 .mini-bloco { fill: var(--gm-ink3); stroke: var(--gm-line); stroke-width: 1; }
+.mini-face { fill: var(--gm-ink3); }
+.mini-face--clara { fill: var(--gm-line); }
 .mini-traco { fill: none; stroke: var(--gm-arte-stroke); stroke-width: 1.5; }
 .mini-contorno { fill: none; stroke: var(--gm-line); stroke-width: 1; }
 .mini-cota { fill: none; stroke: var(--gm-cyan); stroke-width: 1; }

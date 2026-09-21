@@ -29,6 +29,15 @@ export const FERRAMENTAS = [
     repo: "https://github.com/gugaxd/gradient-maker",
   },
   {
+    id: "tres-d",
+    nome: "3d maker",
+    descricao:
+      "Formas 3D paramétricas ou extrudadas do seu SVG, com material, animação e exportação com fundo transparente.",
+    formatos: ["PNG", "SVG", "WebM"],
+    url: "https://3d-maker-kohl.vercel.app/",
+    repo: "https://github.com/gugaxd/3d-maker",
+  },
+  {
     id: "logo",
     nome: "logo sizer",
     descricao:
