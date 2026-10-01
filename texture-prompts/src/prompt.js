@@ -1,13 +1,15 @@
 /* ============================================================
    prompt.js — montagem do prompt
    ------------------------------------------------------------
-   O prompt é montado em partes nomeadas (assunto, material,
-   detalhes, atributos, cena) e só no fim é formatado para o
-   modelo escolhido. A ordem segue a anatomia do exemplo de
-   referência:
+   O prompt é montado em partes nomeadas (material, detalhes,
+   atributos, cena) e só no fim é formatado para o modelo
+   escolhido. A ordem segue a anatomia:
 
-   assunto → "the X form made of" material → detalhes →
-   atributos → cor → luz → fundo → estilo → composição
+   material → detalhes → atributos → cor → luz → fundo →
+   estilo → composição
+
+   O prompt descreve só a aparência: nenhum objeto é nomeado,
+   para o material poder ser pedido sobre o que o usuário quiser.
 
    Todo fragmento existe em inglês e em português. O idioma sai
    do que o usuário escreve (detectarIdioma) ou é fixado à mão.
@@ -29,32 +31,6 @@ export const IDIOMAS = [
   { id: "pt", nome: "Português" },
   { id: "en", nome: "Inglês" },
 ];
-
-/* `forma` entra em "the folder form made of…"; `formaPt` já vem com a
-   contração certa para "a forma da pasta feita de…" */
-export const ASSUNTOS = [
-  { id: "pasta", nome: "Pasta", texto: "a folder icon shaped as a modern file folder", forma: "folder",
-    pt: "um ícone de pasta no formato de uma pasta de arquivos moderna", formaPt: "da pasta" },
-  { id: "esfera", nome: "Esfera", texto: "a perfect sphere", forma: "sphere",
-    pt: "uma esfera perfeita", formaPt: "da esfera" },
-  { id: "letra", nome: "Letra", texto: "the capital letter A as a bold 3D typographic form", forma: "letter",
-    pt: "a letra A maiúscula como uma forma tipográfica 3D robusta", formaPt: "da letra" },
-  { id: "logo", nome: "Símbolo", texto: "an abstract minimalist logo symbol", forma: "symbol",
-    pt: "um símbolo de logo abstrato e minimalista", formaPt: "do símbolo" },
-  { id: "app", nome: "Ícone de app", texto: "a rounded square app icon", forma: "icon",
-    pt: "um ícone de app quadrado com cantos arredondados", formaPt: "do ícone" },
-  { id: "blob", nome: "Forma orgânica", texto: "an abstract organic sculptural blob", forma: "blob",
-    pt: "uma forma escultural orgânica e abstrata", formaPt: "da escultura" },
-  { id: "cubo", nome: "Cubo", texto: "a cube with softly rounded edges", forma: "cube",
-    pt: "um cubo com arestas suavemente arredondadas", formaPt: "do cubo" },
-  { id: "frasco", nome: "Frasco", texto: "a minimalist cosmetic bottle", forma: "bottle",
-    pt: "um frasco de cosmético minimalista", formaPt: "do frasco" },
-];
-
-export const presetDe = (texto) => {
-  const t = texto.trim();
-  return ASSUNTOS.find((a) => a.texto === t || a.pt === t);
-};
 
 export const LUZES = [
   { id: "auto", nome: "Sugerida pelo material" },
@@ -224,11 +200,6 @@ export function montarPartes(cfg, mat, va) {
   const pt = idioma === "pt";
   const tile = cfg.modo === "superficie";
   const atributos = ATRIBUTOS.map((a) => fraseAtributo(a, cfg.attrs[a.id], idioma)).filter(Boolean);
-  const preset = presetDe(cfg.assunto);
-  const assunto = preset
-    ? (pt ? preset.pt : preset.texto)
-    : cfg.assunto.trim() || (pt ? "um objeto abstrato" : "an abstract object");
-  const forma = preset ? (pt ? preset.formaPt : preset.forma) : null;
   const cor = cfg.cor.trim();
 
   const luz = cfg.luz === "auto"
@@ -239,8 +210,6 @@ export function montarPartes(cfg, mat, va) {
   return {
     idioma,
     tile,
-    assunto,
-    forma,
     material: pt ? va.pt.material : va.material,
     detalhes: pt ? va.pt.detalhes : va.detalhes,
     atributos,
@@ -267,15 +236,15 @@ const frasePropocao = (ar, idioma) =>
   idioma === "pt" ? `proporção ${NOME_AR.pt[ar]} ${ar}` : `${NOME_AR.en[ar]} ${ar} aspect ratio`;
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-/* abertura: o assunto e o material que o veste. Assunto livre não tem
-   forma conhecida, então vira "toda a forma feita de…" */
+/* abertura: o material, e só — nenhum objeto é nomeado.
+   Em textura contínua, dito como padrão sem emenda. */
 function abertura(p, natural) {
   if (p.idioma === "pt") {
     if (p.tile) return natural ? `uma textura contínua sem emendas de ${p.material}` : `textura contínua sem emendas (seamless) de ${p.material}`;
-    return `${p.assunto}, ${p.forma ? `a forma ${p.forma}` : "toda a forma"} feita de ${p.material}`;
+    return p.material;
   }
   if (p.tile) return natural ? `a seamless tileable texture of ${p.material}` : `seamless tileable texture of ${p.material}`;
-  return `${p.assunto}, ${p.forma ? `the ${p.forma} form` : "the entire form"} made of ${p.material}`;
+  return p.material;
 }
 
 /* lista corrida, na ordem da anatomia */

@@ -8,8 +8,8 @@ const HUB_URL = "/";
 import { CATEGORIAS, MATERIAIS, attrsDe, sementeDe } from "./biblioteca.js";
 import { amostra } from "./amostras.js";
 import {
-  MODELOS, PROPORCOES, IDIOMAS, ASSUNTOS, LUZES, FUNDOS, ESTILOS, COMPOSICOES, ATRIBUTOS,
-  fraseAtributo, montarPartes, formatar, MODELO_ACEITA_NEGATIVO, detectarIdioma, presetDe,
+  MODELOS, PROPORCOES, IDIOMAS, LUZES, FUNDOS, ESTILOS, COMPOSICOES, ATRIBUTOS,
+  fraseAtributo, montarPartes, formatar, MODELO_ACEITA_NEGATIVO, detectarIdioma,
 } from "./prompt.js";
 
 /* ============================================================
@@ -335,7 +335,6 @@ export default function TexturePrompts() {
   const va = mat.variantes.find((v) => v.id === varPorMat[matId]) || mat.variantes[0];
 
   const [modo, setModo] = useState("objeto");
-  const [assunto, setAssunto] = useState(ASSUNTOS[0].texto);
   const [attrs, setAttrs] = useState(() => attrsDe(mat, va));
   const [cor, setCor] = useState("");
   const [extra, setExtra] = useState("");
@@ -371,15 +370,13 @@ export default function TexturePrompts() {
      resto —, mas se o preset foi escolhido em português, isso vale como
      sinal: clicar em "Esfera" não pode devolver o prompt para o inglês.
      Sem sinal nenhum, fica em inglês. */
-  const preset = presetDe(assunto);
-  const detectado = detectarIdioma([preset ? "" : assunto, cor, extra].join(" "))
-    || (preset && assunto.trim() === preset.pt ? "pt" : null);
+  const detectado = detectarIdioma([cor, extra].join(" "));
   const idioma = idiomaModo === "auto" ? detectado || "en" : idiomaModo;
   const pt = idioma === "pt";
 
   const partes = useMemo(
-    () => montarPartes({ modo, assunto, attrs, cor, extra, luz, fundo, estilo, composicao, proporcao, idioma }, mat, va),
-    [modo, assunto, attrs, cor, extra, luz, fundo, estilo, composicao, proporcao, idioma, mat, va],
+    () => montarPartes({ modo, attrs, cor, extra, luz, fundo, estilo, composicao, proporcao, idioma }, mat, va),
+    [modo, attrs, cor, extra, luz, fundo, estilo, composicao, proporcao, idioma, mat, va],
   );
   const aceitaNeg = MODELO_ACEITA_NEGATIVO[modelo];
   const saida = useMemo(() => formatar(partes, modelo, negativo && aceitaNeg), [partes, modelo, negativo, aceitaNeg]);
@@ -456,7 +453,6 @@ export default function TexturePrompts() {
 
   /* anatomia do prompt, na ordem em que as partes entram */
   const anatomia = [
-    ["Assunto", tile ? "textura contínua, sem objeto" : partes.assunto],
     ["Material", partes.material],
     ["Detalhes", partes.detalhes.join(" · ")],
     ["Atributos", partes.atributos.join(" · ") || "—"],
@@ -482,23 +478,8 @@ export default function TexturePrompts() {
           <p className="hint">
             {tile
               ? "Padrão sem emenda, visto de cima — para fundo, mockup ou mapa de textura 3D."
-              : "O material vestindo uma forma: ícone, letra, símbolo, embalagem."}
+              : "Só a aparência do material, em peça isolada. Nenhum objeto é nomeado: quem diz o que vestir com ela é você, no seu pedido ao modelo."}
           </p>
-          {!tile && (
-            <div className="ctl" style={{ marginTop: 14 }}>
-              <div className="ctl-label" style={{ marginBottom: 6 }}>Assunto</div>
-              <div className="grid2" style={{ marginBottom: 8 }}>
-                {ASSUNTOS.map((a) => (
-                  <button key={a.id} className="btn" data-on={preset?.id === a.id ? 1 : 0}
-                    onClick={() => setAssunto(pt ? a.pt : a.texto)}>{a.nome}</button>
-                ))}
-              </div>
-              <textarea rows={2} value={preset ? (pt ? preset.pt : preset.texto) : assunto}
-                aria-label="Descrição do assunto"
-                placeholder="uma xícara de café, um tênis, a palavra OLÁ…"
-                onChange={(e) => setAssunto(e.target.value)} />
-            </div>
-          )}
         </section>
 
         <section className="sec">
