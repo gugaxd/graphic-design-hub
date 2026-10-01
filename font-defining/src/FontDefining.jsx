@@ -155,6 +155,8 @@ a.gm-marca:focus-visible{outline:var(--gm-foco) solid var(--gm-cyan);outline-off
   text-transform:uppercase;color:var(--gm-muted)}
 .fs-conta{font-family:var(--gm-mono);font-size:var(--gm-size-nota);color:var(--gm-muted)}
 .fs-nivel[data-off="1"] .gm-texto{opacity:.4}
+.fs-fonte{margin-top:6px}
+.fs-nivel[data-off="1"] .fs-fonte{opacity:.4}
 
 .fs-main{flex:1;display:flex;flex-direction:column;min-width:0}
 .gm-barra{height:var(--gm-altura-barra);flex:none;display:flex;align-items:center;
@@ -491,7 +493,25 @@ function Opcoes({ opcoes, valor, onChange, colunas, acento = "cyan" }) {
   );
 }
 
-function Nivel({ etiqueta, texto, onTexto, ligado, onLigar, conta }) {
+/* fonte de um nível; vazio herda a família do projeto */
+function Fonte({ etiqueta, valor, onMudar, ligado = true, base }) {
+  return (
+    <select
+      className="gm-select fs-fonte"
+      value={valor}
+      disabled={!ligado}
+      onChange={(e) => onMudar(e.target.value)}
+      aria-label={"Fonte do nível " + etiqueta}
+    >
+      <option value="">fonte do projeto · {base}</option>
+      {FAMILIAS.map((f) => (
+        <option key={f.id} value={f.id}>{f.l}</option>
+      ))}
+    </select>
+  );
+}
+
+function Nivel({ etiqueta, texto, onTexto, ligado, onLigar, conta, fonte, onFonte, baseFonte }) {
   return (
     <div className="fs-nivel" data-off={ligado ? "0" : "1"}>
       <div className="fs-nivel-topo">
@@ -511,6 +531,7 @@ function Nivel({ etiqueta, texto, onTexto, ligado, onLigar, conta }) {
         onChange={(e) => onTexto(e.target.value)}
         aria-label={"Texto do " + etiqueta}
       />
+      <Fonte etiqueta={etiqueta} valor={fonte} onMudar={onFonte} ligado={ligado} base={baseFonte} />
     </div>
   );
 }
@@ -550,6 +571,7 @@ export default function FontDefining() {
   /* escala */
   const [razaoFixa, setRazaoFixa] = useState(0);
   const [famId, setFamId] = useState("sans");
+  const [famNivel, setFamNivel] = useState({ h1: "", h2: "", h3: "", corpo: "", legenda: "" });
   const [pesoTit, setPesoTit] = useState(700);
   const [lhTit, setLhTit] = useState(1.08);
   const [lhCorpo, setLhCorpo] = useState(1.45);
@@ -563,6 +585,13 @@ export default function FontDefining() {
 
   const fmt = useMemo(() => FORMATOS.find((f) => f.id === fmtId) || FORMATOS[2], [fmtId]);
   const fam = useMemo(() => FAMILIAS.find((f) => f.id === famId) || FAMILIAS[0], [famId]);
+  /* fonte por nível: "" herda a família do projeto, para o caso comum continuar
+     sendo um clique só e a mistura ser uma escolha deliberada */
+  const trocarFonte = useCallback((id, v) => setFamNivel((f) => ({ ...f, [id]: v })), []);
+  const famDe = useCallback(
+    (id) => FAMILIAS.find((f) => f.id === famNivel[id]) || fam,
+    [famNivel, fam],
+  );
   const impresso = fmt.u === "mm";
 
   /* troca de formato: dimensões, distância e unidade de saída acompanham */
@@ -633,7 +662,8 @@ export default function FontDefining() {
     const gut = (Math.min(W, H) * medianiz) / 100;
     const colW = Math.max(1, (areaW - (nCol - 1) * gut) / nCol);
 
-    const met = metricas(fam, 400);
+    /* as métricas de leitura (cpl, piso de legibilidade) saem da fonte do corpo */
+    const met = metricas(famDe("corpo"), 400);
     const distMm = Math.max(50, dist * 10);
     const rad = Math.PI / 180;
     /* piso de legibilidade: altura de caixa alta sob o ângulo visual mínimo */
@@ -665,7 +695,7 @@ export default function FontDefining() {
     /* corpo de texto: quebra real das palavras de amostra */
     const medCorpo = medirTexto(
       Array.from({ length: Math.max(0, Math.round(palavrasCorpo)) }, (_, i) => PALAVRAS[i % PALAVRAS.length]).join(" "),
-      fam,
+      famDe("corpo"),
       400
     );
     corpo = naCaixa(corpo, medCorpo, colW);
@@ -678,7 +708,7 @@ export default function FontDefining() {
     const corpoH = linhasCol * lhCorpo * corpo;
 
     /* legenda: um degrau abaixo do corpo, sem furar o próprio piso */
-    const medLeg = usaLeg ? medirTexto(tLeg, fam, 400) : { palavras: [], esp: 0.26 };
+    const medLeg = usaLeg ? medirTexto(tLeg, famDe("legenda"), 400) : { palavras: [], esp: 0.26 };
     let legenda = Math.max(corpo / 1.25, pisoLegenda);
     legenda = Math.min(legenda, corpo);
     legenda = naCaixa(fixar(legenda), medLeg, areaW);
@@ -694,7 +724,7 @@ export default function FontDefining() {
 
     const fatia = usa2 && usa3 ? [0.56, 0.27, 0.17] : usa2 ? [0.68, 0.32, 0] : usa3 ? [0.68, 0, 0.32] : [0.95, 0, 0];
 
-    const med1 = medirTexto(t1, fam, pesoTit);
+    const med1 = medirTexto(t1, famDe("h1"), pesoTit);
     const teto1 = linhasT1 > 0 ? linhasT1 : 4;
     const r1 =
       linhasT1 > 0
@@ -703,9 +733,9 @@ export default function FontDefining() {
 
     /* h2 e h3 saem no peso do título, então é nele que se mede — medir em 400
        daria linhas mais estreitas do que as desenhadas, e o texto furaria a margem */
-    const med2 = usa2 ? medirTexto(t2, fam, pesoTit) : null;
+    const med2 = usa2 ? medirTexto(t2, famDe("h2"), pesoTit) : null;
     const r2 = med2 ? caberAuto(med2, areaW, folga * fatia[1], 3, lhTit) : null;
-    const med3 = usa3 ? medirTexto(t3, fam, pesoTit) : null;
+    const med3 = usa3 ? medirTexto(t3, famDe("h3"), pesoTit) : null;
     const r3 = med3 ? caberAuto(med3, areaW, folga * fatia[2], 3, lhTit) : null;
 
     let h1 = fixar(r1 ? r1.corpo : corpo * 2);
@@ -757,16 +787,22 @@ export default function FontDefining() {
       if (corpoN == null) return;
       const emColunas = id === "corpo" ? nCol : 1;
       const larguraCaixa = id === "corpo" ? colW : areaW;
+      const famN = famDe(id);
+      const pesoN = id.startsWith("h") ? pesoTit : 400;
+      /* cada família tem a sua largura média, então o cpl é medido na fonte do nível */
+      const metN = famN === famDe("corpo") && pesoN === 400 ? met : metricas(famN, pesoN);
       niveis.push({
         id,
         rotulo,
+        fam: famN,
+        peso: pesoN,
         corpo: corpoN,
         lh,
         linhas: q.linhas,
         emColunas,
         larguraCaixa,
         alturaBloco: Math.ceil(q.linhas.length / emColunas) * lh * corpoN,
-        cpl: Math.round(larguraCaixa / (corpoN * met.medio)),
+        cpl: Math.round(larguraCaixa / (corpoN * metN.medio)),
         texto,
         apertado: (corpoN * met.cap * mmPorU) / distMm < Math.tan(ANGULO.legenda * rad),
       });
@@ -803,7 +839,7 @@ export default function FontDefining() {
     };
   }, [
     larg, alt, margem, colunas, medianiz, dist, cpl, prioridade, t1, t2, t3, tLeg, palavrasCorpo,
-    usa2, usa3, usaCorpo, usaLeg, linhasT1, razaoFixa, fam, pesoTit, lhTit, lhCorpo, mmPorU, fixar, daSaida, arred,
+    usa2, usa3, usaCorpo, usaLeg, linhasT1, razaoFixa, famDe, pesoTit, lhTit, lhCorpo, mmPorU, fixar, daSaida, arred,
   ]);
 
   /* cor da arte: sai dos tokens do tema ativo, nunca de valor solto no componente */
@@ -852,11 +888,13 @@ export default function FontDefining() {
     for (const n of calc.niveis) {
       l.push("  --fs-" + n.id + ": " + decSaida(n.corpo) + rotuloUnidade +
         "; --lh-" + n.id + ": " + dec(n.lh, 2) + ";");
+      l.push("  --ff-" + n.id + ": " + n.fam.css + ";");
     }
     l.push("}");
     for (const n of calc.niveis) {
       const sel = n.id === "corpo" ? "p, li" : n.id === "legenda" ? ".legenda, figcaption, small" : n.id;
-      l.push(sel + "{font-size:var(--fs-" + n.id + ");line-height:var(--lh-" + n.id + ");}");
+      l.push(sel + "{font-family:var(--ff-" + n.id + ");font-size:var(--fs-" + n.id +
+        ");line-height:var(--lh-" + n.id + ");}");
     }
     return l.join("\n");
   };
@@ -870,6 +908,8 @@ export default function FontDefining() {
       unidade_saida: rotuloUnidade,
       niveis: calc.niveis.map((n) => ({
         nivel: n.id,
+        familia: n.fam.id,
+        peso: n.peso,
         tamanho: Number(decSaida(n.corpo)),
         entrelinha: Number(dec(n.lh, 2)),
         linhas: n.linhas.length,
@@ -887,8 +927,7 @@ export default function FontDefining() {
     ctx.fillStyle = cor.tinta;
     ctx.textBaseline = "alphabetic";
     for (const n of calc.niveis) {
-      const peso = n.id.startsWith("h") ? pesoTit : 400;
-      ctx.font = fonteCss(fam, peso, n.corpo * k);
+      ctx.font = fonteCss(n.fam, n.peso, n.corpo * k);
       for (const f of n.fluxos) {
         f.linhas.forEach((ln, i) => {
           ctx.fillText(ln.t, f.x * k, (f.y + n.lh * n.corpo * (i + 0.76)) * k);
@@ -918,9 +957,8 @@ export default function FontDefining() {
     p.push('<rect width="' + calc.W + '" height="' + calc.H + '" fill="' + cor.bg + '"/>');
     const tinta = cor.tinta;
     for (const n of calc.niveis) {
-      const peso = n.id.startsWith("h") ? pesoTit : 400;
-      p.push('<g font-family="' + esc(fam.css.replace(/"/g, "'")) + '" font-size="' + dec(n.corpo) +
-        '" font-weight="' + peso + '" fill="' + tinta + '">');
+      p.push('<g font-family="' + esc(n.fam.css.replace(/"/g, "'")) + '" font-size="' + dec(n.corpo) +
+        '" font-weight="' + n.peso + '" fill="' + tinta + '">');
       for (const f of n.fluxos) {
         f.linhas.forEach((ln, i) => {
           const y = f.y + n.lh * n.corpo * (i + 0.76);
@@ -1043,21 +1081,25 @@ export default function FontDefining() {
               nota="45 a 75 é a faixa confortável em texto corrido." />
           )}
           <div className="gm-controle">
-            <span className="gm-rotulo" style={{ display: "block", marginBottom: 6 }}>Família de medição</span>
+            <span className="gm-rotulo" style={{ display: "block", marginBottom: 6 }}>Fonte do projeto</span>
             <Opcoes opcoes={FAMILIAS.map((f) => ({ v: f.id, l: f.l }))} valor={famId} onChange={setFamId} colunas={4} />
             <p className="gm-nota">
               O cálculo mede a fonte real: largura média {num(calc.met.medio, 3)} em, caixa alta {num(calc.met.cap, 3)} em.
+              Cada nível pode usar outra fonte, logo abaixo, em Conteúdo.
             </p>
           </div>
         </Secao>
 
         <Secao titulo="Conteúdo">
           <Nivel etiqueta="h1" texto={t1} onTexto={setT1} ligado
-            conta={t1.trim().split(/\s+/).filter(Boolean).length + " pal · " + t1.length + " car"} />
+            conta={t1.trim().split(/\s+/).filter(Boolean).length + " pal · " + t1.length + " car"}
+            fonte={famNivel.h1} onFonte={(v) => trocarFonte("h1", v)} baseFonte={fam.l} />
           <Nivel etiqueta="h2" texto={t2} onTexto={setT2} ligado={usa2} onLigar={setUsa2}
-            conta={t2.trim().split(/\s+/).filter(Boolean).length + " pal · " + t2.length + " car"} />
+            conta={t2.trim().split(/\s+/).filter(Boolean).length + " pal · " + t2.length + " car"}
+            fonte={famNivel.h2} onFonte={(v) => trocarFonte("h2", v)} baseFonte={fam.l} />
           <Nivel etiqueta="h3" texto={t3} onTexto={setT3} ligado={usa3} onLigar={setUsa3}
-            conta={t3.trim().split(/\s+/).filter(Boolean).length + " pal · " + t3.length + " car"} />
+            conta={t3.trim().split(/\s+/).filter(Boolean).length + " pal · " + t3.length + " car"}
+            fonte={famNivel.h3} onFonte={(v) => trocarFonte("h3", v)} baseFonte={fam.l} />
 
           <div className="fs-nivel" data-off={usaCorpo ? "0" : "1"}>
             <div className="fs-nivel-topo">
@@ -1069,10 +1111,13 @@ export default function FontDefining() {
             </div>
             <Controle rotulo="Palavras" valor={palavrasCorpo} onChange={setPalavrasCorpo} min={0} max={1200} step={10}
               unidade="pal" acento="mag" />
+            <Fonte etiqueta="corpo" valor={famNivel.corpo} onMudar={(v) => trocarFonte("corpo", v)}
+              ligado={usaCorpo} base={fam.l} />
           </div>
 
           <Nivel etiqueta="legenda" texto={tLeg} onTexto={setTLeg} ligado={usaLeg} onLigar={setUsaLeg}
-            conta={tLeg.trim().split(/\s+/).filter(Boolean).length + " pal"} />
+            conta={tLeg.trim().split(/\s+/).filter(Boolean).length + " pal"}
+            fonte={famNivel.legenda} onFonte={(v) => trocarFonte("legenda", v)} baseFonte={fam.l} />
 
           <div className="gm-controle" style={{ marginTop: "var(--gm-espaco-controle)" }}>
             <span className="gm-rotulo" style={{ display: "block", marginBottom: 6 }}>Linhas do h1</span>
@@ -1245,8 +1290,8 @@ export default function FontDefining() {
                     left: f.x * escala,
                     top: f.y * escala,
                     width: f.largura * escala,
-                    fontFamily: fam.css,
-                    fontWeight: n.id.startsWith("h") ? pesoTit : 400,
+                    fontFamily: n.fam.css,
+                    fontWeight: n.peso,
                     fontSize: n.corpo * escala,
                     lineHeight: n.lh,
                   }}
@@ -1268,6 +1313,7 @@ export default function FontDefining() {
             <thead>
               <tr>
                 <th>nível</th>
+                <th>fonte</th>
                 <th>texto</th>
                 <th>tamanho</th>
                 <th>entrelinha</th>
@@ -1280,6 +1326,7 @@ export default function FontDefining() {
               {calc.niveis.map((n) => (
                 <tr key={n.id} data-apertado={n.apertado ? "1" : "0"}>
                   <td>{n.rotulo}</td>
+                  <td>{n.fam.l}</td>
                   <td className="fs-cel-txt">{n.texto}</td>
                   <td>
                     {fmtSaida(n.corpo)} {rotuloUnidade}
