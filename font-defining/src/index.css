@@ -1,0 +1,27 @@
+/* Reset mínimo e a fonte da marca. Todo o resto vive no bloco CSS de FontDefining.jsx,
+   junto com os tokens do sistema visual. */
+@font-face {
+  font-family: "Host Grotesk";
+  src: url("./assets/fonts/HostGrotesk-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0a0a0a;
+  -webkit-font-smoothing: antialiased;
+}

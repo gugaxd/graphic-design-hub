@@ -108,7 +108,66 @@ function TresD() {
   );
 }
 
-const DESENHOS = { grid: Grid, bento: Bento, gradient: Gradient, "tres-d": TresD, logo: Logo };
+function Textura() {
+  /* amostras de material: a mesma peça com granulações diferentes */
+  const pontos = [];
+  for (let i = 0; i < 150; i++) {
+    const x = 24 + (i * 37) % 112;
+    const y = 18 + ((i * 53) % 64);
+    const r = 0.5 + ((i * 7) % 5) / 4;
+    pontos.push(<circle key={i} cx={x} cy={y} r={r} className={i % 3 ? "mini-grao" : "mini-grao mini-grao--clara"} />);
+  }
+  return (
+    <>
+      <defs>
+        <clipPath id="mini-amostra">
+          <rect x="22" y="16" width="52" height="68" rx="2" />
+          <rect x="86" y="16" width="52" height="68" rx="2" />
+        </clipPath>
+      </defs>
+      <rect x="22" y="16" width="52" height="68" rx="2" className="mini-fill" />
+      <rect x="86" y="16" width="52" height="68" rx="2" className="mini-face" />
+      <g clipPath="url(#mini-amostra)">{pontos}</g>
+      <rect x="86" y="16" width="52" height="68" rx="2" className="mini-traco" />
+    </>
+  );
+}
+
+function Fonte() {
+  /* escala tipográfica: cada nível com seu corpo, medido à esquerda */
+  const niveis = [
+    [18, 70],
+    [12, 56],
+    [8, 44],
+    [5, 62],
+    [5, 38],
+  ];
+  let y = 18;
+  return (
+    <>
+      {niveis.map(([alt, larg], i) => {
+        const bloco = (
+          <g key={i}>
+            <rect x="34" y={y} width={larg} height={alt} className={i === 0 ? "mini-fill" : "mini-texto"} />
+            <path d={`M26 ${y}h5 M26 ${y + alt}h5 M28.5 ${y}v${alt}`} className="mini-cota" />
+          </g>
+        );
+        y += alt + 8;
+        return bloco;
+      })}
+    </>
+  );
+}
+
+const DESENHOS = {
+  grid: Grid,
+  bento: Bento,
+  gradient: Gradient,
+  "tres-d": TresD,
+  textura: Textura,
+  logo: Logo,
+  font: Fonte,
+};
 
 export default function Miniatura({ id }) {
   const Desenho = DESENHOS[id];

@@ -2,15 +2,28 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "node:path";
 
-/* O hub também serve ferramentas que não têm deploy próprio: cada uma é uma página extra
-   do build, numa pasta com o nome do caminho (logo-sizer/ → /logo-sizer/). */
+/* Um único site: o menu na raiz e cada ferramenta numa pasta própria, que vira uma
+   página do build (grid-maker/ → /grid-maker/). Ferramenta nova entra aqui e no
+   catálogo em src/ferramentas.js. */
+const PAGINAS = [
+  "grid-maker",
+  "bento-maker",
+  "gradient-maker",
+  "3d-maker",
+  "texture-prompts",
+  "logo-sizer",
+  "font-defining",
+];
+
 export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
       input: {
         hub: resolve(__dirname, "index.html"),
-        "logo-sizer": resolve(__dirname, "logo-sizer/index.html"),
+        ...Object.fromEntries(
+          PAGINAS.map((p) => [p, resolve(__dirname, p, "index.html")])
+        ),
       },
     },
   },
