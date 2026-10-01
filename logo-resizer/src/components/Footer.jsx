@@ -1,5 +1,5 @@
 /* Rodapé genérico: apenas uma lista de links, recebida por props.
-   Cor sai das variáveis --gm-* do bloco CSS de LogoSizer.jsx. */
+   Cor sai das variáveis --gm-* do bloco CSS de LogoResizer.jsx. */
 export default function Footer({ links = [] }) {
   if (!links.length) return null;
   return (

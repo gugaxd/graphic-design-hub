@@ -11,7 +11,7 @@ const PAGINAS = [
   "gradient-maker",
   "3d-maker",
   "texture-prompts",
-  "logo-sizer",
+  "logo-resizer",
   "font-defining",
 ];
 

@@ -1,6 +1,6 @@
 /* Cabeçalho do app: logo do estúdio + nome da ferramenta + alternador de tema.
    Genérico — nome vem por props. Cor sai só das variáveis --gm-* já declaradas
-   no bloco CSS de LogoSizer.jsx, como manda o sistema visual do gri.d.maker.
+   no bloco CSS de LogoResizer.jsx, como manda o sistema visual do gri.d.maker.
    Com `homeHref`, a marca vira link e aparece o botão de voltar ao menu do hub. */
 export default function Header({ tool, tema, onToggleTema, homeHref }) {
   const Marca = homeHref ? "a" : "div";

@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Hub das ferramentas de design — grid maker, bento maker, gradient maker, 3d maker, texture prompts, logo sizer e font defining, num site só.",
+  "description": "Hub das ferramentas de design — grid maker, bento maker, gradient maker, 3d maker, texture prompts, logo resizer e font defining, num site só.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

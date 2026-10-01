@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/logo-sizer", "destination": "/logo-resizer/", "permanent": true },
+    { "source": "/logo-sizer/:caminho*", "destination": "/logo-resizer/:caminho*", "permanent": true }
+  ]
+}

@@ -49,12 +49,12 @@ export const FERRAMENTAS = [
   },
   {
     id: "logo",
-    nome: "logo sizer",
+    nome: "logo resizer",
     descricao:
       "Padroniza opticamente o tamanho de várias logos lado a lado, compensando o peso visual de cada uma.",
     formatos: ["SVG", "PNG", "JPG"],
-    url: "/logo-sizer/",
-    repo: "https://github.com/gugaxd/logo-sizer",
+    url: "/logo-resizer/",
+    repo: "https://github.com/gugaxd/logo-resizer",
   },
   {
     id: "font",

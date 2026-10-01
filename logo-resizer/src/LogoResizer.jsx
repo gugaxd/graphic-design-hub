@@ -1,11 +1,11 @@
 import React, { useState, useRef, useMemo, useEffect, useCallback } from "react";
 import Header from "./components/Header.jsx";
 
-/* Servido pelo hub em /logo-sizer/ — o menu é a raiz do mesmo site. */
+/* Servido pelo hub em /logo-resizer/ — o menu é a raiz do mesmo site. */
 const HUB_URL = "/";
 
 /* ---------------------------------------------------------------
-   logo sizer — padroniza opticamente o tamanho de várias logos
+   logo resizer — padroniza opticamente o tamanho de várias logos
    Sistema visual: tokens do gri.d.maker (design-system.md + tokens.css)
 ----------------------------------------------------------------*/
 
@@ -338,7 +338,7 @@ function Opcoes({ opcoes, valor, onChange }) {
 
 /* ---------- app ---------- */
 
-export default function LogoSizer() {
+export default function LogoResizer() {
   const [tema, setTema] = useState("escuro");
   const [logos, setLogos] = useState([]);
   const [sel, setSel] = useState(null);
@@ -579,7 +579,7 @@ export default function LogoSizer() {
 
       <aside className="gm-painel">
         <Header
-          tool="logo sizer"
+          tool="logo resizer"
           homeHref={HUB_URL}
           tema={tema}
           onToggleTema={() => setTema((t) => (t === "escuro" ? "claro" : "escuro"))}
