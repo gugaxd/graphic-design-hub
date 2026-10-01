@@ -63,7 +63,7 @@ export const FERRAMENTAS = [
       "Tamanho de tipo por nível a partir do formato, da distância de leitura e da quantidade de texto.",
     formatos: ["CSS", "JSON", "SVG", "PNG"],
     url: "/font-defining/",
-    repo: null,
+    repo: "https://github.com/gugaxd/font-defining",
   },
 ];
 
