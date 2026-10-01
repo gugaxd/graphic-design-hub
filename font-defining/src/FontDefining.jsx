@@ -316,6 +316,11 @@ function metricas(fam, peso) {
   return { cap: cap > 0.4 && cap < 1 ? cap : padrao.cap, medio: medio > 0.2 ? medio : padrao.medio };
 }
 
+/** a palavra mais larga do texto, em "em" */
+function maiorPalavra(med) {
+  return med && med.palavras.length ? Math.max(...med.palavras.map((p) => p.w)) : 0;
+}
+
 /** quebra gulosa; `larguraEm` é a largura da caixa dividida pelo corpo */
 function quebrar(med, larguraEm) {
   const linhas = [];
@@ -646,9 +651,16 @@ export default function FontDefining() {
         ? Math.max(pisoCorpo, colW / (95 * met.medio))
         : Math.min(Math.max(porMedida, pisoCorpo), Math.max(tetoMedida, pisoCorpo));
     corpo = fixar(Math.max(corpo, 0.2));
-    const cplCorpo = Math.round(colW / (corpo * met.medio));
-    const apertado = cplCorpo < 45;
-    const linhaLonga = cplCorpo > 85;
+
+    /* teto de largura: nenhuma palavra pode passar da margem. A quebra gulosa
+       põe a palavra sozinha na linha mesmo quando ela não cabe, então o corpo
+       desce até a maior palavra caber na caixa. Só desce, nunca sobe. */
+    const naCaixa = (corpoN, med, caixa) => {
+      const larga = maiorPalavra(med);
+      if (corpoN == null || larga <= 0) return corpoN;
+      const teto = fixar(caixa / larga);
+      return Math.min(corpoN, teto > 0 ? teto : caixa / larga);
+    };
 
     /* corpo de texto: quebra real das palavras de amostra */
     const medCorpo = medirTexto(
@@ -656,6 +668,11 @@ export default function FontDefining() {
       fam,
       400
     );
+    corpo = naCaixa(corpo, medCorpo, colW);
+    /* os diagnósticos leem o corpo já limitado pela caixa */
+    const cplCorpo = Math.round(colW / (corpo * met.medio));
+    const apertado = cplCorpo < 45;
+    const linhaLonga = cplCorpo > 85;
     const qCorpo = usaCorpo && medCorpo.palavras.length ? quebrar(medCorpo, colW / corpo) : { linhas: [], maior: 0 };
     const linhasCol = Math.ceil(qCorpo.linhas.length / nCol);
     const corpoH = linhasCol * lhCorpo * corpo;
@@ -664,7 +681,7 @@ export default function FontDefining() {
     const medLeg = usaLeg ? medirTexto(tLeg, fam, 400) : { palavras: [], esp: 0.26 };
     let legenda = Math.max(corpo / 1.25, pisoLegenda);
     legenda = Math.min(legenda, corpo);
-    legenda = fixar(legenda);
+    legenda = naCaixa(fixar(legenda), medLeg, areaW);
     const qLeg = medLeg.palavras.length ? quebrar(medLeg, areaW / legenda) : { linhas: [], maior: 0 };
     const legH = qLeg.linhas.length * lhCorpo * legenda;
 
@@ -684,9 +701,11 @@ export default function FontDefining() {
         ? caber(med1, areaW, folga * fatia[0], linhasT1, lhTit)
         : caberAuto(med1, areaW, folga * fatia[0], teto1, lhTit);
 
-    const med2 = usa2 ? medirTexto(t2, fam, 400) : null;
+    /* h2 e h3 saem no peso do título, então é nele que se mede — medir em 400
+       daria linhas mais estreitas do que as desenhadas, e o texto furaria a margem */
+    const med2 = usa2 ? medirTexto(t2, fam, pesoTit) : null;
     const r2 = med2 ? caberAuto(med2, areaW, folga * fatia[1], 3, lhTit) : null;
-    const med3 = usa3 ? medirTexto(t3, fam, 400) : null;
+    const med3 = usa3 ? medirTexto(t3, fam, pesoTit) : null;
     const r3 = med3 ? caberAuto(med3, areaW, folga * fatia[2], 3, lhTit) : null;
 
     let h1 = fixar(r1 ? r1.corpo : corpo * 2);
@@ -720,6 +739,12 @@ export default function FontDefining() {
     if (usa3) h3 = acima(h3, corpo);
     if (usa2) h2 = acima(h2, usa3 ? h3 : corpo);
     h1 = acima(h1, usa2 ? h2 : usa3 ? h3 : corpo);
+
+    /* nenhum título pode furar a margem; se o teto baixar o h1, os níveis
+       abaixo acompanham, para a hierarquia não inverter */
+    h1 = naCaixa(h1, med1, areaW);
+    if (usa2) h2 = Math.min(naCaixa(h2, med2, areaW), h1);
+    if (usa3) h3 = Math.min(naCaixa(h3, med3, areaW), usa2 ? h2 : h1);
 
     /* quebra final, já no tamanho arredondado */
     const quebra = (med, corpoFinal) => (med && corpoFinal ? quebrar(med, areaW / corpoFinal) : { linhas: [], maior: 0 });
