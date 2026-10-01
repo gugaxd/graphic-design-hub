@@ -9,7 +9,7 @@ import { CATEGORIAS, MATERIAIS, attrsDe, sementeDe } from "./biblioteca.js";
 import { amostra } from "./amostras.js";
 import {
   MODELOS, PROPORCOES, IDIOMAS, LUZES, FUNDOS, ESTILOS, COMPOSICOES, ATRIBUTOS,
-  fraseAtributo, montarPartes, formatar, MODELO_ACEITA_NEGATIVO, detectarIdioma,
+  fraseAtributo, montarPartes, formatar, MODELO_ACEITA_NEGATIVO, detectarIdioma, nomeDaCor,
 } from "./prompt.js";
 
 /* ============================================================
@@ -121,6 +121,15 @@ select:disabled{opacity:.4;cursor:not-allowed}
 input[type=text],textarea{width:100%;background:${C.ink};border:1px solid ${C.line};color:${C.text};
   font-family:${MONO};font-size:11px;padding:6px 7px;border-radius:2px;resize:vertical;line-height:1.5}
 input[type=text]::placeholder,textarea::placeholder{color:${C.muted}}
+.cor-linha{display:flex;align-items:center;gap:6px}
+.cor-amostra{flex:none;width:30px;height:30px;padding:2px;background:${C.ink};
+  border:1px solid ${C.line};border-radius:2px;cursor:pointer}
+.cor-amostra:hover{border-color:${C.cyan}}
+.cor-amostra:focus-visible{outline:2px solid ${C.cyan};outline-offset:1px}
+.cor-amostra::-webkit-color-swatch-wrapper{padding:0}
+.cor-amostra::-webkit-color-swatch{border:0;border-radius:1px}
+.cor-amostra::-moz-color-swatch{border:0;border-radius:1px}
+.cor-limpar{flex:none;width:30px;height:30px;padding:0;line-height:1}
 input[type=text]:focus-visible,textarea:focus-visible{outline:2px solid ${C.cyan};outline-offset:1px}
 .check{display:flex;align-items:center;gap:8px;font-size:11.5px;cursor:pointer}
 .check input{accent-color:${C.mag};width:13px;height:13px;margin:0}
@@ -337,6 +346,7 @@ export default function TexturePrompts() {
   const [modo, setModo] = useState("objeto");
   const [attrs, setAttrs] = useState(() => attrsDe(mat, va));
   const [cor, setCor] = useState("");
+  const [corHex, setCorHex] = useState("#1B4FA0");
   const [extra, setExtra] = useState("");
   const [luz, setLuz] = useState("auto");
   const [fundo, setFundo] = useState("auto");
@@ -392,6 +402,13 @@ export default function TexturePrompts() {
       return [m.nome, ...m.variantes.map((v) => `${v.nome} ${v.material} ${v.pt.material}`)].join(" ").toLowerCase().includes(q);
     });
   }, [filtro, busca]);
+
+  /* o seletor escreve o nome da cor mais próxima — modelo de imagem lê nome
+     melhor que hexadecimal — e deixa o código ao lado, para quem precisa exato */
+  const escolherCor = (hex) => {
+    setCorHex(hex);
+    setCor(nomeDaCor(hex, idioma) + " " + hex.toUpperCase());
+  };
 
   const tile = modo === "superficie";
   const nomeArquivo = `texture-prompt-${mat.id}-${va.id}-${modelo}`;
@@ -499,8 +516,16 @@ export default function TexturePrompts() {
           </div>
           <div className="ctl" style={{ marginTop: 14 }}>
             <div className="ctl-label" style={{ marginBottom: 6 }}>Cor dominante</div>
-            <input type="text" value={cor} placeholder="azul cobalto, verde-sálvia…" aria-label="Cor dominante"
-              onChange={(e) => setCor(e.target.value)} />
+            <div className="cor-linha">
+              <input type="color" className="cor-amostra" value={corHex} aria-label="Escolher cor dominante"
+                onChange={(e) => escolherCor(e.target.value)} />
+              <input type="text" value={cor} placeholder="azul cobalto, verde-sálvia…" aria-label="Cor dominante"
+                onChange={(e) => setCor(e.target.value)} />
+              {cor && (
+                <button className="btn cor-limpar" onClick={() => setCor("")} aria-label="Limpar cor dominante"
+                  title="Sem cor dominante">×</button>
+              )}
+            </div>
           </div>
           <Field label="Detalhe extra">
             <input type="text" value={extra} placeholder="gotas d'água na superfície…" aria-label="Detalhe extra"

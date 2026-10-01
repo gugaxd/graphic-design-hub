@@ -32,6 +32,73 @@ export const IDIOMAS = [
   { id: "en", nome: "Inglês" },
 ];
 
+/* Nomes de cor para o seletor: o modelo de imagem entende "azul cobalto" muito
+   melhor que um hexadecimal solto, então o seletor escreve o nome e deixa o
+   código ao lado, para quem precisa da cor exata. */
+export const CORES = [
+  { hex: "#000000", pt: "preto", en: "black" },
+  { hex: "#2B2B2B", pt: "grafite", en: "charcoal gray" },
+  { hex: "#808080", pt: "cinza médio", en: "mid gray" },
+  { hex: "#C8C8C8", pt: "cinza claro", en: "light gray" },
+  { hex: "#FFFFFF", pt: "branco", en: "white" },
+  { hex: "#F2E8DC", pt: "branco quente", en: "warm off-white" },
+  { hex: "#E8DCC8", pt: "areia", en: "sand" },
+  { hex: "#C8A882", pt: "bege", en: "beige" },
+  { hex: "#8B6B47", pt: "castanho", en: "walnut brown" },
+  { hex: "#5A3A28", pt: "marrom escuro", en: "dark brown" },
+  { hex: "#B05A2A", pt: "terracota", en: "terracotta" },
+  { hex: "#D2691E", pt: "âmbar queimado", en: "burnt amber" },
+  { hex: "#E8A33D", pt: "mostarda", en: "mustard yellow" },
+  { hex: "#F5C518", pt: "amarelo ouro", en: "golden yellow" },
+  { hex: "#F7E96B", pt: "amarelo claro", en: "pale yellow" },
+  { hex: "#C9A227", pt: "ouro velho", en: "antique gold" },
+  { hex: "#FF7F3F", pt: "laranja", en: "orange" },
+  { hex: "#E04E2A", pt: "laranja queimado", en: "burnt orange" },
+  { hex: "#C8102E", pt: "vermelho", en: "red" },
+  { hex: "#8B1A2B", pt: "vinho", en: "wine red" },
+  { hex: "#F2A0A0", pt: "rosa claro", en: "blush pink" },
+  { hex: "#E0218A", pt: "magenta", en: "magenta" },
+  { hex: "#8B3A9E", pt: "roxo", en: "purple" },
+  { hex: "#5B3A8E", pt: "violeta profundo", en: "deep violet" },
+  { hex: "#3A4A9E", pt: "azul índigo", en: "indigo blue" },
+  { hex: "#1B4FA0", pt: "azul cobalto", en: "cobalt blue" },
+  { hex: "#1E3A5F", pt: "azul marinho", en: "navy blue" },
+  { hex: "#3F8FD2", pt: "azul claro", en: "sky blue" },
+  { hex: "#00A9CE", pt: "ciano", en: "cyan" },
+  { hex: "#2E8B8B", pt: "azul petróleo", en: "teal" },
+  { hex: "#2E6B4F", pt: "verde escuro", en: "deep green" },
+  { hex: "#4CAF50", pt: "verde", en: "green" },
+  { hex: "#8BA888", pt: "verde-sálvia", en: "sage green" },
+  { hex: "#A8C83C", pt: "verde-limão", en: "lime green" },
+  { hex: "#5A5F4A", pt: "verde oliva", en: "olive green" },
+  { hex: "#B8B8C0", pt: "prata", en: "silver" },
+  { hex: "#B08D57", pt: "bronze", en: "bronze" },
+  { hex: "#D4AF37", pt: "dourado", en: "gold" },
+];
+
+const rgbDe = (hex) => {
+  const h = hex.replace("#", "");
+  const n = parseInt(h.length === 3 ? h.split("").map((c) => c + c).join("") : h, 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+};
+
+/** nome da cor mais próxima do hexadecimal, no idioma pedido */
+export function nomeDaCor(hex, idioma) {
+  const [r, g, b] = rgbDe(hex);
+  let melhor = CORES[0];
+  let dist = Infinity;
+  for (const c of CORES) {
+    const [r2, g2, b2] = rgbDe(c.hex);
+    /* pesos aproximando a sensibilidade do olho — verde pesa mais que azul */
+    const d = 2 * (r - r2) ** 2 + 4 * (g - g2) ** 2 + 3 * (b - b2) ** 2;
+    if (d < dist) {
+      dist = d;
+      melhor = c;
+    }
+  }
+  return idioma === "pt" ? melhor.pt : melhor.en;
+}
+
 export const LUZES = [
   { id: "auto", nome: "Sugerida pelo material" },
   { id: "estudio", nome: "Estúdio minimalista", txt: "minimalist studio lighting",
