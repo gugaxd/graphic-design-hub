@@ -76,6 +76,16 @@ export const CORES = [
   { hex: "#D4AF37", pt: "dourado", en: "gold" },
 ];
 
+/* hexadecimal escrito pelo usuário, em qualquer formato: #abc, abc, #AABBCC */
+export const RE_HEX = /#?\b([0-9a-fA-F]{6}|[0-9a-fA-F]{3})\b/;
+
+export function acharHex(txt) {
+  const m = String(txt || "").match(RE_HEX);
+  if (!m) return null;
+  const h = m[1];
+  return "#" + (h.length === 3 ? h.split("").map((c) => c + c).join("") : h).toUpperCase();
+}
+
 const rgbDe = (hex) => {
   const h = hex.replace("#", "");
   const n = parseInt(h.length === 3 ? h.split("").map((c) => c + c).join("") : h, 16);
@@ -209,6 +219,26 @@ export const fraseAtributo = (attr, v, idioma = "en") => {
   return idioma === "pt" ? f[2] : f[1];
 };
 
+/* Com um hexadecimal na mão, a cor deixa de ser sugestão: o prompt pede a cor
+   exata e admite o limite do material — vidro e metal sempre distorcem o matiz.
+   O nome entra junto porque vários modelos leem nome melhor que código. */
+function fraseCor(txt, idioma) {
+  const t = String(txt || "").trim();
+  if (!t) return null;
+  const hex = acharHex(t);
+  if (!hex) return idioma === "pt" ? `cor dominante ${t}` : `dominant color ${t}`;
+  const resto = t.replace(RE_HEX, "").replace(/[(),]/g, " ").replace(/\s+/g, " ").trim();
+  const nome = resto || nomeDaCor(hex, idioma);
+  return idioma === "pt"
+    ? `cor dominante ${nome}, exatamente o hexadecimal ${hex}, fiel a essa cor o quanto o material permitir`
+    : `dominant color ${nome}, exactly hex ${hex}, color-matched as closely as the material allows`;
+}
+
+const NEG_CORRIGIR_COR = {
+  en: ["color shift", "wrong hue", "desaturated color"],
+  pt: ["desvio de cor", "matiz trocado", "cor dessaturada"],
+};
+
 const NEG_BASE = {
   en: ["blurry", "low resolution", "watermark", "text", "distorted"],
   pt: ["desfocado", "baixa resolução", "marca d'água", "texto", "distorcido"],
@@ -280,7 +310,7 @@ export function montarPartes(cfg, mat, va) {
     material: pt ? va.pt.material : va.material,
     detalhes: pt ? va.pt.detalhes : va.detalhes,
     atributos,
-    cor: cor ? (pt ? `cor dominante ${cor}` : `dominant color ${cor}`) : null,
+    cor: fraseCor(cor, idioma),
     extra: cfg.extra.trim() || null,
     luz,
     fundo: tile ? null : txt(cfg.fundo === "auto" ? achar(FUNDOS, mat.fundo) : achar(FUNDOS, cfg.fundo), idioma),
@@ -288,7 +318,12 @@ export function montarPartes(cfg, mat, va) {
     composicao: tile ? TILE[idioma].composicao : txt(achar(COMPOSICOES, cfg.composicao), idioma),
     proporcao: cfg.proporcao,
     /* na textura contínua, repetir é o objetivo — esse negativo sairia contra */
-    negativo: [...negMat.filter((n) => !(tile && /repetiti/i.test(n))), ...NEG_BASE[idioma]],
+    negativo: [
+      ...negMat.filter((n) => !(tile && /repetiti/i.test(n))),
+      ...NEG_BASE[idioma],
+      /* pedir a cor exata só adianta se o negativo também cobrar */
+      ...(acharHex(cor) ? NEG_CORRIGIR_COR[idioma] : []),
+    ],
   };
 }
 

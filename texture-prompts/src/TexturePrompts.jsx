@@ -9,7 +9,7 @@ import { CATEGORIAS, MATERIAIS, attrsDe, sementeDe } from "./biblioteca.js";
 import { amostra } from "./amostras.js";
 import {
   MODELOS, PROPORCOES, IDIOMAS, LUZES, FUNDOS, ESTILOS, COMPOSICOES, ATRIBUTOS,
-  fraseAtributo, montarPartes, formatar, MODELO_ACEITA_NEGATIVO, detectarIdioma, nomeDaCor,
+  fraseAtributo, montarPartes, formatar, MODELO_ACEITA_NEGATIVO, detectarIdioma, nomeDaCor, acharHex,
 } from "./prompt.js";
 
 /* ============================================================
@@ -410,6 +410,12 @@ export default function TexturePrompts() {
     setCor(nomeDaCor(hex, idioma) + " " + hex.toUpperCase());
   };
 
+  /* hexadecimal digitado à mão também move o seletor */
+  const hexNoCampo = acharHex(cor);
+  useEffect(() => {
+    if (hexNoCampo && hexNoCampo !== corHex) setCorHex(hexNoCampo);
+  }, [hexNoCampo, corHex]);
+
   const tile = modo === "superficie";
   const nomeArquivo = `texture-prompt-${mat.id}-${va.id}-${modelo}`;
 
@@ -526,6 +532,12 @@ export default function TexturePrompts() {
                   title="Sem cor dominante">×</button>
               )}
             </div>
+            {hexNoCampo && (
+              <p className="hint" style={{ marginTop: 6 }}>
+                Com o hexadecimal no campo, o prompt pede <b>{hexNoCampo}</b> exato e o negativo cobra desvio de
+                matiz. Vidro, metal e outros materiais que refratam sempre puxam a cor para algum lado.
+              </p>
+            )}
           </div>
           <Field label="Detalhe extra">
             <input type="text" value={extra} placeholder="gotas d'água na superfície…" aria-label="Detalhe extra"
