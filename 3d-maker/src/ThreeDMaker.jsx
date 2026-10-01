@@ -40,6 +40,7 @@ import {
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import { MONO, SANS } from "./theme.js";
+import { toCreasedNormals } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { SOFTPOINT_SVG } from "./softpoint.js";
 
 /* Servido pelo hub em /3d-maker/ — o menu é a raiz do mesmo site. */
@@ -252,6 +253,7 @@ const SHAPES = [
   ["tetrahedron", "tetraedro"],
   ["ring", "anel"],
   ["plane", "plano"],
+  ["softpoint", "softpoint"],
   ["svg", "svg importado"],
 ];
 const SHAPE_LABEL = Object.fromEntries(SHAPES);
@@ -526,6 +528,14 @@ function svgToShapes(text, quality = 12) {
   });
 }
 
+/* Contorno da marca, convertido na primeira vez que alguém pede e guardado:
+   é o mesmo caminho de um SVG enviado, só que já embutido. */
+let formasSoftpoint = null;
+function softpointShapes() {
+  if (!formasSoftpoint) formasSoftpoint = svgToShapes(SOFTPOINT_SVG, 28);
+  return formasSoftpoint;
+}
+
 /* ---------- geometria ---------- */
 function buildGeometry(o) {
   const d = o.detail / 100, th = 0.08 + (o.thickness / 100) * 0.62;
@@ -544,13 +554,15 @@ function buildGeometry(o) {
     case "tetrahedron": g = new TetrahedronGeometry(1.4, s(0, 3)); break;
     case "ring": g = new RingGeometry(1 - th, 1.2, s(6, 120), 1); break;
     case "plane": g = new PlaneGeometry(2, 2, s(1, 24), s(1, 24)); break;
+    case "softpoint":
     case "svg": {
-      if (!o.svgShapes || !o.svgShapes.length) return new BoxGeometry(0.01, 0.01, 0.01);
-      if (o.svgMode === "flat") g = new ShapeGeometry(o.svgShapes, s(2, 24));
+      const formas = o.type === "softpoint" ? softpointShapes() : o.svgShapes;
+      if (!formas || !formas.length) return new BoxGeometry(0.01, 0.01, 0.01);
+      if (o.svgMode === "flat") g = new ShapeGeometry(formas, s(2, 24));
       else {
         const depth = 0.02 + (o.depth / 100) * 1.2;
         const bev = (o.bevel / 100) * 0.06;
-        g = new ExtrudeGeometry(o.svgShapes, {
+        g = new ExtrudeGeometry(formas, {
           depth, curveSegments: s(2, 16),
           bevelEnabled: bev > 0.0005, bevelThickness: bev, bevelSize: bev, bevelSegments: Math.max(1, s(1, 5)),
         });
@@ -561,6 +573,10 @@ function buildGeometry(o) {
   }
   g.center();
   g.computeVertexNormals();
+  /* A parede de uma forma extrudada é uma sequência de faces planas: sem isso,
+     a curva aparece em faixas de cor. O ângulo de vinco preserva a quina — só
+     costura a normal onde duas faces vizinhas já são quase contínuas. */
+  if (o.suavizar) g = toCreasedNormals(g, (o.vinco * Math.PI) / 180);
   return g;
 }
 
@@ -833,6 +849,7 @@ export default function ThreeDMaker() {
       color: "#e9e6e1", material: "matte", roughness: 55,
       detail: 55, thickness: 30, depth: 30, bevel: 12,
       svgShapes: null, svgName: "", svgMode: "extrude", svgKey: "",
+      suavizar: true, vinco: 50,
       position: [0, 0, 0], rotation: [0, 0, 0], scale: [1, 1, 1], translucency: 0,
       keyframes: [],
     };
@@ -972,7 +989,7 @@ export default function ThreeDMaker() {
     for (const o of objects) {
       alive.add(o.id);
       let m = meshesRef.current.get(o.id);
-      const geoKey = [o.type, o.detail, o.thickness, o.depth, o.bevel, o.svgMode, o.svgKey].join("|");
+      const geoKey = [o.type, o.detail, o.thickness, o.depth, o.bevel, o.svgMode, o.svgKey, o.suavizar, o.vinco].join("|");
       const matKey = [o.material, o.color, o.roughness].join("|");
       if (!m) {
         m = new Mesh(buildGeometry(o), buildMaterial(o));
@@ -1197,7 +1214,7 @@ export default function ThreeDMaker() {
   /* caminho único: arquivo enviado e forma embutida entram pelo mesmo lugar */
   const addSVG = (text, nome) => {
     try {
-      const shapes = svgToShapes(text, 12);
+      const shapes = svgToShapes(text, 28);
       const o = makeObject("svg");
       o.svgShapes = shapes;
       o.svgName = nome;
@@ -1408,8 +1425,6 @@ export default function ThreeDMaker() {
             <button className="btn" onClick={() => addObject("box")}>Adicionar forma</button>
             <button className="btn" onClick={duplicateObject} disabled={!sel}>Duplicar</button>
           </div>
-          <button className="btn" style={{ marginTop: 8, width: "100%" }}
-            onClick={() => addSVG(SOFTPOINT_SVG, "Softpoint")}>Softpoint</button>
           <div className="solta" style={{ marginTop: 8 }} data-over={dragOver ? 1 : 0}
             onClick={() => fileRef.current.click()}
             onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
@@ -1433,7 +1448,7 @@ export default function ThreeDMaker() {
                   ))}
                 </select>
               </Field>
-              {sel.type === "svg" ? (
+              {sel.type === "svg" || sel.type === "softpoint" ? (
                 <>
                   <div className="grid2" style={{ marginBottom: 14 }}>
                     <button className="btn" data-on={sel.svgMode === "extrude" ? 1 : 0}
@@ -1452,6 +1467,19 @@ export default function ThreeDMaker() {
                   onChange={(v) => patch(sel.id, { thickness: v })} />
               )}
               <Slider label="Detalhe" value={sel.detail} unit="%" onChange={(v) => patch(sel.id, { detail: v })} />
+              <div className="ctl">
+                <div className="ctl-label" style={{ marginBottom: 6 }}>Sombreado</div>
+                <div className="grid2">
+                  <button className="btn" data-on={sel.suavizar ? 1 : 0}
+                    onClick={() => patch(sel.id, { suavizar: true })}>Suave</button>
+                  <button className="btn" data-on={sel.suavizar ? 0 : 1}
+                    onClick={() => patch(sel.id, { suavizar: false })}>Facetado</button>
+                </div>
+              </div>
+              {sel.suavizar && (
+                <Slider label="Ângulo de vinco" value={sel.vinco} unit="°" min={10} max={80}
+                  onChange={(v) => patch(sel.id, { vinco: v })} />
+              )}
             </section>
 
             {/* Transformação */}
