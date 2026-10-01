@@ -54,7 +54,7 @@ export const FERRAMENTAS = [
       "Padroniza opticamente o tamanho de várias logos lado a lado, compensando o peso visual de cada uma.",
     formatos: ["SVG", "PNG", "JPG"],
     url: "/logo-sizer/",
-    repo: null,
+    repo: "https://github.com/gugaxd/logo-sizer",
   },
   {
     id: "font",
