@@ -594,6 +594,7 @@ export default function TexturePrompts() {
                   : <>Nada escrito ainda: saindo em <b>inglês</b>.</>
                 : <>Fixado em <b>{pt ? "português" : "inglês"}</b>.</>}
               {pt && (modelo === "midjourney" || modelo === "flux") && " Midjourney e Flux entendem português, mas acertam mais em inglês."}
+              {pt && modelo === "gemini" && " Gemini e Flow leem português bem."}
             </p>
           </div>
           <label className="check" data-off={aceitaNeg ? 0 : 1}>
@@ -605,6 +606,7 @@ export default function TexturePrompts() {
             {modelo === "grok" && "Grok: caixa alta entre chaves, como no exemplo. Não aceita negativo."}
             {modelo === "midjourney" && <>Midjourney: parâmetros no fim — <b>--ar</b>, <b>--style raw</b>{tile && <>, <b>--tile</b></>} e <b>--no</b>.</>}
             {modelo === "gpt" && "GPT Image: frases completas, que é como ele lê melhor."}
+            {modelo === "gemini" && "Gemini e Flow: frases completas, com a proporção escrita. Nenhum dos dois aceita negativo — no Flow, a proporção vale a da interface."}
             {modelo === "flux" && "Flux / SD: lista de termos, com o negativo em campo separado."}
             {modelo === "firefly" && "Firefly: frases completas. A proporção se escolhe na interface dele."}
           </p>

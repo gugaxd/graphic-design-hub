@@ -17,6 +17,7 @@ export const MODELOS = [
   { id: "grok", nome: "Grok" },
   { id: "midjourney", nome: "Midjourney" },
   { id: "gpt", nome: "GPT Image" },
+  { id: "gemini", nome: "Gemini/Flow" },
   { id: "flux", nome: "Flux / SD" },
   { id: "firefly", nome: "Firefly" },
 ];
@@ -313,6 +314,10 @@ export function formatar(p, modelo, usarNegativo) {
         texto: natural(p, true) + (neg.length ? ` ${evite}: ${neg.join(", ")}.` : ""),
         negativo: null,
       };
+    case "gemini":
+      /* Gemini e Flow leem prosa; a proporção vai escrita, porque no Gemini não
+         há parâmetro, e no Flow a interface manda sobre o texto */
+      return { texto: natural(p, true), negativo: null };
     case "firefly":
       /* a proporção do Firefly é escolhida na interface dele, não no texto */
       return {
@@ -332,4 +337,4 @@ export function formatar(p, modelo, usarNegativo) {
   }
 }
 
-export const MODELO_ACEITA_NEGATIVO = { grok: false, midjourney: true, gpt: true, flux: true, firefly: true };
+export const MODELO_ACEITA_NEGATIVO = { grok: false, midjourney: true, gpt: true, gemini: false, flux: true, firefly: true };
