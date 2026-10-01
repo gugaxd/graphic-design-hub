@@ -40,6 +40,7 @@ import {
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import { MONO, SANS } from "./theme.js";
+import { SOFTPOINT_SVG } from "./softpoint.js";
 
 /* Servido pelo hub em /3d-maker/ — o menu é a raiz do mesmo site. */
 const HUB_URL = "/";
@@ -1193,22 +1194,26 @@ export default function ThreeDMaker() {
   };
 
   /* ---- SVG ---- */
-  const loadSVG = async (file) => {
-    if (!file) return;
+  /* caminho único: arquivo enviado e forma embutida entram pelo mesmo lugar */
+  const addSVG = (text, nome) => {
     try {
-      const text = await file.text();
       const shapes = svgToShapes(text, 12);
       const o = makeObject("svg");
       o.svgShapes = shapes;
-      o.svgName = file.name;
+      o.svgName = nome;
       o.svgKey = uid();
-      o.name = file.name.replace(/\.svg$/i, "");
+      o.name = nome.replace(/\.svg$/i, "");
       setObjects((p) => [...p, o]);
       setSelectedId(o.id);
-      setStatus(`${file.name} — ${shapes.length} contorno(s)`);
+      setStatus(`${nome} — ${shapes.length} contorno(s)`);
     } catch (err) {
       setStatus(`Não deu para ler o SVG: ${err.message}`);
     }
+  };
+
+  const loadSVG = async (file) => {
+    if (!file) return;
+    addSVG(await file.text(), file.name);
   };
 
   /* ---- keyframes ---- */
@@ -1403,6 +1408,8 @@ export default function ThreeDMaker() {
             <button className="btn" onClick={() => addObject("box")}>Adicionar forma</button>
             <button className="btn" onClick={duplicateObject} disabled={!sel}>Duplicar</button>
           </div>
+          <button className="btn" style={{ marginTop: 8, width: "100%" }}
+            onClick={() => addSVG(SOFTPOINT_SVG, "Softpoint")}>Softpoint</button>
           <div className="solta" style={{ marginTop: 8 }} data-over={dragOver ? 1 : 0}
             onClick={() => fileRef.current.click()}
             onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}

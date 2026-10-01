@@ -1,5 +1,6 @@
 import React, { useState, useRef, useMemo, useEffect, useCallback } from "react";
 import Header from "./components/Header.jsx";
+import { SOFTPOINT_SVG } from "./softpoint.js";
 
 /* Servido pelo hub em /logo-resizer/ — o menu é a raiz do mesmo site. */
 const HUB_URL = "/";
@@ -697,6 +698,12 @@ export default function LogoResizer() {
               : "nenhum arquivo"}
           </span>
           <span className="gm-barra-acoes">
+            {/* forma da marca sem precisar do arquivo em mãos */}
+            <button className="gm-botao" onClick={() => adicionar([
+              new File([SOFTPOINT_SVG], "Softpoint.svg", { type: "image/svg+xml" }),
+            ])}>
+              Softpoint
+            </button>
             <button className="gm-botao gm-botao--primario" onClick={() => fileRef.current && fileRef.current.click()}>
               adicionar logos
             </button>

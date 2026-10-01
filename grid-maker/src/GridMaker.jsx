@@ -66,6 +66,9 @@ const pathFolha = (w, h, r) => {
   return `M${k},0 H${w} V${h - k} A${k},${k} 0 0 1 ${w - k},${h} H0 V${k} A${k},${k} 0 0 1 ${k},0 Z`;
 };
 
+/* Softpoint: o raio do logo sobre a largura dele (275,14 / 994,92) */
+const RAIO_SOFTPOINT = 0.2765;
+
 const SHAPES = {
   quadrado: { label: "Quadrado", el: <rect className="shp" x="0" y="0" width="100" height="100" /> },
   arredondado: {
@@ -77,6 +80,13 @@ const SHAPES = {
     label: "Folha",
     el: <path className="shp" d={pathFolha(100, 100, 22)} />,
     param: pathFolha,
+  },
+  softpoint: {
+    label: "Softpoint",
+    el: <path className="shp" d={pathFolha(100, 100, RAIO_SOFTPOINT * 100)} />,
+    param: pathFolha,
+    /* o raio da marca é 27,65% do lado — é o que dá a silhueta reconhecível */
+    raio: (lado) => Math.round(lado * RAIO_SOFTPOINT),
   },
   retangulo: {
     label: "Retângulo",
@@ -728,7 +738,10 @@ div.brand{gap:8px}
                 data-on={shape === k ? "1" : "0"}
                 title={v.label}
                 aria-label={v.label}
-                onClick={() => setShape(k)}
+                onClick={() => {
+                  setShape(k);
+                  if (v.raio) setRaioCanto(v.raio(cell));
+                }}
               >
                 <svg viewBox="0 0 100 100">{v.el}</svg>
               </button>
