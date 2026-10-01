@@ -100,6 +100,18 @@ ${FONTE_MARCA}
 .tema svg{width:100%;height:100%;display:block;fill:none;stroke:currentColor;stroke-width:1.7}
 
 /* ---- painel ---- */
+/* Cabeçalho: o nome encolhe antes de encostar nos botões, e a barra de rolagem
+   do painel é fina para não roubar largura do nome. */
+.brand .marca{gap:9px}
+div.brand{gap:8px}
+.brand .acoes{gap:4px}
+.marca{flex:0 1 auto;min-width:0}
+.brand h1{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.panel{scrollbar-width:thin;scrollbar-color:${C.line} transparent}
+.panel::-webkit-scrollbar{width:8px}
+.panel::-webkit-scrollbar-thumb{background:${C.line};border-radius:2px}
+.panel::-webkit-scrollbar-track{background:transparent}
+
 .panel{width:312px;flex:0 0 312px;background:${C.ink2};border-right:1px solid ${C.line};
   overflow-y:auto;padding:0}
 .sec{border-bottom:1px solid ${C.line};padding:16px 18px}

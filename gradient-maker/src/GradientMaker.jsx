@@ -508,6 +508,18 @@ const CSS = `
   --gm-stage:#ececec;--gm-stage-alt:#e2e2e2;--gm-sombra:rgba(0,0,0,.13);
 }
 
+/* Cabeçalho: o nome encolhe antes de encostar nos botões, e a barra de rolagem
+   do painel é fina para não roubar largura do nome. */
+.gm-cabecalho .gm-marca{gap:9px}
+header.gm-cabecalho{gap:8px}
+.gm-cabecalho .gm-acoes{gap:4px}
+.gm-marca{flex:0 1 auto;min-width:0}
+.gm-marca-nome{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gm-painel{scrollbar-width:thin;scrollbar-color:var(--gm-line) transparent}
+.gm-painel::-webkit-scrollbar{width:8px}
+.gm-painel::-webkit-scrollbar-thumb{background:var(--gm-line);border-radius:var(--gm-radius)}
+.gm-painel::-webkit-scrollbar-track{background:transparent}
+
 .gm-painel{width:312px;flex:0 0 312px;background:var(--gm-ink2);
   border-right:1px solid var(--gm-line);max-height:100vh;overflow-y:auto}
 .gm-cabecalho{padding:18px 18px 14px;border-bottom:1px solid var(--gm-line);

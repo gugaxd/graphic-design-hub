@@ -120,6 +120,18 @@ const CSS = `
 
 /* --- painéis --- */
 .bt .corpo { display:flex; flex:1; min-height:0; }
+/* Cabeçalho: o nome encolhe antes de encostar nos botões, e a barra de rolagem
+   do painel é fina para não roubar largura do nome. */
+.brand .marca{gap:9px}
+div.brand{gap:8px}
+.brand .acoes{gap:4px}
+.marca { flex:0 1 auto; min-width:0; }
+.brand h1 { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bt .painel { scrollbar-width:thin; scrollbar-color: var(--line) transparent; }
+.bt .painel::-webkit-scrollbar { width:8px; }
+.bt .painel::-webkit-scrollbar-thumb { background: var(--line); border-radius:2px; }
+.bt .painel::-webkit-scrollbar-track { background: transparent; }
+
 .bt .painel {
   width: var(--painel); flex:none; overflow-y:auto;
   background: var(--ink2); border-right:1px solid var(--line);

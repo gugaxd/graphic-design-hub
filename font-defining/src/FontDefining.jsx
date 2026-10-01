@@ -47,6 +47,18 @@ const CSS = `
 .fs-app *{box-sizing:border-box}
 .fs-app button{font-family:inherit;cursor:pointer}
 
+/* Cabeçalho: o nome encolhe antes de encostar nos botões, e a barra de rolagem
+   do painel é fina para não roubar largura do nome. */
+.gm-cabecalho .gm-marca{gap:9px}
+header.gm-cabecalho{gap:8px}
+.gm-cabecalho .gm-acoes{gap:4px}
+.gm-marca{flex:0 1 auto;min-width:0}
+.gm-marca-nome{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gm-painel{scrollbar-width:thin;scrollbar-color:var(--gm-line) transparent}
+.gm-painel::-webkit-scrollbar{width:8px}
+.gm-painel::-webkit-scrollbar-thumb{background:var(--gm-line);border-radius:var(--gm-radius)}
+.gm-painel::-webkit-scrollbar-track{background:transparent}
+
 .gm-painel{width:var(--gm-largura-painel);flex:none;background:var(--gm-ink2);
   border-right:1px solid var(--gm-line);overflow-y:auto;max-height:100vh}
 .gm-cabecalho{padding:var(--gm-pad-cabecalho);border-bottom:1px solid var(--gm-line);
