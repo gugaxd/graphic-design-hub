@@ -5,15 +5,15 @@ caminho próprio. A pessoa acessa um link, escolhe a ferramenta e volta ao menu 
 de grade no cabeçalho, sem sair do site.
 
 ```
-/                 menu
-/grid-maker/      grids modulares
-/bento-maker/     layouts bento
-/gradient-maker/  gradientes
-/3d-maker/        formas 3D
-/texture-prompts/ prompts de textura
-/wireframe-maker/ formas 3D em arame
-/logo-resizer/   padronização óptica de logos
-/font-defining/   escala tipográfica
+/                  menu
+/grid-maker/       grids modulares
+/bento-maker/      layouts bento
+/gradient-maker/   gradientes
+/3d-maker/         formas 3D
+/texture-prompts/  prompts de textura
+/wireframe-maker/  formas 3D em arame
+/logo-resizer/     padronização óptica de logos
+/font-defining/    escala tipográfica
 ```
 
 ## Estrutura
@@ -21,9 +21,15 @@ de grade no cabeçalho, sem sair do site.
 Cada ferramenta é uma pasta deste projeto, com `index.html` e `src/` próprios, e vira uma
 página do build. O menu em `src/` é a raiz.
 
-As pastas das ferramentas vieram dos repositórios individuais (`gri.d.maker`, `bento-maker`,
-`gradient-maker`, `3d-maker`, `texture-prompts`, e as duas que nunca tiveram repo). **A
-cópia daqui é a que vai ao ar** — mudança feita só no repositório antigo não aparece no site.
+Cada ferramenta também existe num repositório próprio — `gri.d.maker`, `bento-maker`,
+`gradient-maker`, `3d-maker`, `texture-prompts`, `logo-resizer` e `font-defining`; só o
+wireframe maker ainda não tem. **A cópia daqui é a que vai ao ar**: mudança feita só no
+repositório individual não aparece no site, e o contrário também vale — mexeu aqui, espelhe
+lá para as duas não divergirem.
+
+A única diferença proposital entre as duas cópias é o `HUB_URL` no topo do componente
+principal: aqui é `"/"`, porque o menu é a raiz do mesmo site; na versão independente, o
+endereço do hub publicado.
 
 ## Ferramenta nova
 
@@ -34,6 +40,9 @@ cópia daqui é a que vai ao ar** — mudança feita só no repositório antigo 
 5. No componente da ferramenta, `const HUB_URL = "/"` e `homeHref={HUB_URL}` no `Header`
 
 Com `url: null` o card aparece como "em breve", sem link.
+
+A casca é só o `Header`: logo do estúdio, nome da ferramenta em minúsculas, botão de menu e
+botão de tema. As ferramentas não têm rodapé — quem leva de uma para outra é o botão de menu.
 
 ## Rodando localmente
 
