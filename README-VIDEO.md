@@ -10,7 +10,7 @@
 
 ## 1. Em uma frase
 
-**design tools** é um site só, com sete ferramentas de design gráfico que rodam inteiras no
+**design tools** é um site só, com oito ferramentas de design gráfico que rodam inteiras no
 navegador: você abre um link, escolhe a ferramenta, cria e exporta — sem instalar nada e sem
 nenhum arquivo sair do seu computador.
 
@@ -22,7 +22,7 @@ nenhum arquivo sair do seu computador.
 
 Use estas ideias como espinha do vídeo. São todas verdadeiras:
 
-1. **Um link, sete ferramentas.** O menu é a página inicial; cada ferramenta abre no mesmo site
+1. **Um link, oito ferramentas.** O menu é a página inicial; cada ferramenta abre no mesmo site
    e volta ao menu por um botão no cabeçalho.
 2. **Tudo roda no navegador.** Não há servidor processando nada. Imagens, logos e SVGs que a
    pessoa carrega ficam na máquina dela.
@@ -30,18 +30,19 @@ Use estas ideias como espinha do vídeo. São todas verdadeiras:
 4. **Saída profissional.** Cada ferramenta exporta em formatos de produção: SVG vetorial, PNG
    em alta, PDF, vídeo com fundo transparente, código CSS, JSON.
 5. **O que você vê é o que sai.** A tela e o arquivo exportado partem da mesma geometria.
-6. **Uma família só.** As sete ferramentas compartilham o mesmo sistema visual, os mesmos
+6. **Uma família só.** As oito ferramentas compartilham o mesmo sistema visual, os mesmos
    controles e o mesmo jeito de usar — aprendeu uma, sabe usar as outras.
 
 Frase de apoio que já aparece no site:
 > "escolha uma ferramenta para começar."
-> "07 disponíveis · tudo roda no navegador · nenhum arquivo sai do seu computador"
+> "08 disponíveis · tudo roda no navegador · nenhum arquivo sai do seu computador"
 
 ## 3. Para quem é
 
 Designers gráficos, motion designers, social media, estudantes de design e quem prepara
 material para impressão ou tela e precisa de uma peça específica rápido — um grid, um
-gradiente, um objeto 3D, um prompt de textura, logos padronizadas, a escala de tipo certa.
+gradiente, um objeto 3D, um desenho em arame, um prompt de textura, logos padronizadas, a
+escala de tipo certa.
 
 ## 4. Como a plataforma funciona (o menu)
 
@@ -51,7 +52,7 @@ gradiente, um objeto 3D, um prompt de textura, logos padronizadas, a escala de t
 Abaixo, o título de seção **FERRAMENTAS** (pequeno, em caixa alta, ciano, com uma régua
 horizontal) e a chamada grande "escolha uma ferramenta para começar."
 
-**Grade de cards** (7 cards, numerados 01 a 07). Cada card tem:
+**Grade de cards** (8 cards, numerados 01 a 08). Cada card tem:
 - uma **miniatura desenhada** do que a ferramenta produz (não é ícone, é um retrato do resultado);
 - **marcas de registro** (pequenas cruzes de impressão) nos quatro cantos da miniatura, que
   acendem em ciano quando o mouse passa;
@@ -68,7 +69,7 @@ botão de grade no cabeçalho volta ao menu.
 ciano, sliders com campo numérico ao lado) e o **palco** à direita, onde a peça aparece em
 tempo real. Em telas estreitas (celular) o painel empilha sobre o palco.
 
-## 5. As sete ferramentas
+## 5. As oito ferramentas
 
 ### 01 · grid maker — `/grid-maker/`
 **O que é:** gerador de grids modulares para design gráfico e pré-impressão.
@@ -80,8 +81,8 @@ módulo maior ocupando várias células.
 1. Escolhe o **suporte** — A4, A3, quadrado, post de Instagram, Story/Reels — ou tamanho
    personalizado em px, mm, cm ou polegadas, com DPI ajustável.
 2. Define a **malha**: colunas, linhas, tamanho do módulo e espaçamento.
-3. Escolhe a **forma** entre 14 prontas (quadrado, arredondado, folha, círculo, anel,
-   triângulo, losango, hexágono, cruz, estrela, semicírculo…) ou sobe um **SVG próprio**.
+3. Escolhe a **forma** entre 14 prontas (quadrado, arredondado, folha, softpoint, círculo,
+   anel, triângulo, losango, hexágono, cruz, estrela, semicírculo…) ou sobe um **SVG próprio**.
 4. Faz qualquer módulo **ocupar várias células**: proporcional (3×3), horizontal, vertical ou
    personalizado (ex.: 3×7).
 5. Ajusta **atributos**: rotação, opacidade e **escalonamento progressivo** — os módulos
@@ -147,6 +148,8 @@ tecido ou superfície de água; depois exportar o vídeo, que **repete em loop s
 1. Escolhe uma **forma**: 12 primitivas (cubo, esfera, cilindro, cone, toro, nó de toro,
    icosaedro, octaedro, dodecaedro, tetraedro, anel, plano) ou **importa um SVG próprio** —
    uma logo, um ícone — que vira objeto 3D **extrudado**, com profundidade e chanfro.
+   O **sombreado** alterna entre suave e facetado: no suave, a curva de uma forma extrudada
+   deixa de aparecer em faixas de cor, e a quina continua quina.
 2. Monta a **cena**: um objeto ou vários, selecionando por clique no palco.
 3. **Transforma**: posição, rotação e escala por eixo, e translucência.
 4. Aplica o **material**: fosco, brilhante, metal, vidro colorido, chapado ou arame, com cor e
@@ -172,14 +175,19 @@ Atenção: a ferramenta **escreve o prompt**, não gera a imagem final.
    metal polido, escovado e oxidado, madeira, mármore, pedra, papel, tecido, veludo, couro,
    concreto, terrazzo, estuque, cerâmica, plástico, holográfico e pérola. Cada um tem uma
    amostra visual.
-2. Define a **aplicação**: **objeto** (o material vestindo uma forma — ícone, letra, símbolo,
-   embalagem) ou **textura contínua** (padrão sem emenda, para fundo ou mapa 3D).
+2. Define a **aplicação**: **objeto** (o material em peça isolada, com luz e fundo de estúdio)
+   ou **textura contínua** (padrão sem emenda, para fundo ou mapa 3D). O prompt descreve só a
+   aparência: nenhum objeto é nomeado, então a pessoa diz no próprio pedido à IA o que quer
+   ver vestido com aquele material.
 3. Ajusta os **atributos** de 0 a 100: acabamento, desgaste, microdetalhe e iridescência.
    Cada faixa vira uma frase no prompt, mostrada embaixo do slider.
-4. Ajusta a **cena**: iluminação, fundo, estilo, composição e cor dominante.
-5. Escolhe o **modelo** — Grok, Midjourney, GPT Image, Flux / SD ou Firefly — e o prompt sai
-   no formato que aquele modelo lê melhor (inclusive prompt negativo e parâmetros do
-   Midjourney).
+4. Ajusta a **cena**: iluminação, fundo, estilo, composição e **cor dominante** — esta com
+   seletor de cor ao lado do campo de texto. Escolhida no seletor, a cor entra pelo nome
+   ("azul cobalto") mais o hexadecimal; digitado um código, o prompt passa a cobrar a cor
+   exata, com a ressalva de fidelidade "o quanto o material permitir".
+5. Escolhe o **modelo** — Grok, Midjourney, GPT Image, Gemini/Flow, Flux / SD ou Firefly — e o
+   prompt sai no formato que aquele modelo lê melhor (inclusive prompt negativo e parâmetros
+   do Midjourney).
 6. Copia ou exporta.
 
 **Momento "uau":** mexer no slider de desgaste e ver a frase do prompt mudar ao vivo; trocar o
@@ -190,7 +198,38 @@ nenhuma imagem (são ilustrativas: mostram o caráter do material, não o result
 
 ---
 
-### 06 · logo resizer — `/logo-resizer/`
+### 06 · wireframe maker — `/wireframe-maker/`
+**O que é:** gerador de formas 3D em **wireframe**, no traço de ilustração técnica: só as
+linhas que a câmera enxerga, sem preenchimento.
+**Exporta:** SVG só com traços, PNG em 1×, 2× ou 4×, e um botão que copia o SVG para colar
+direto no Figma ou no Illustrator.
+**Miniatura no menu:** uma esfera em arame, com meridianos e paralelos.
+
+**Como usa:**
+1. Escolhe uma das **24 formas** paramétricas: esfera, blob, cubo, cone, pirâmide, poliedro
+   (de 4 a 20 faces), tubo, cápsula, toro, planeta com anel, cúpula, mola, nó, möbius,
+   ampulheta, portal, escada, plano, ondas, terreno, poço, vórtice, sela e túnel. Ou envia um
+   **SVG próprio**, que vira sólido extrudado com hachura nas faces — furos são detectados
+   sozinhos.
+2. Ajusta a **geometria** da forma escolhida: achatamento, espessura, arco, voltas,
+   rugosidade, semente.
+3. Define a **malha**: quantas linhas em cada direção, e pode esconder uma das direções.
+4. Move a **câmera**: inclinação, giro, rolagem, perspectiva (de paralela a grande-angular) e
+   escala. Arrastar o desenho também gira.
+5. Decide o que fazer com as **linhas ocultas**: ocultar, tracejar, esmaecer ou raio-x.
+6. Ajusta o **traço**: espessura, cor da linha, cor do fundo ou fundo transparente.
+7. Exporta.
+
+**Momento "uau":** girar a câmera arrastando o desenho e ver as linhas de trás sumirem e
+reaparecerem em tempo real — é remoção real de linha oculta, não opacidade.
+**Detalhe técnico que dá credibilidade:** cada forma vira uma malha de triângulos num
+z-buffer, e cada linha é testada contra a profundidade da superfície. No SVG exportado, as
+linhas saem recortadas e separadas em dois grupos, `linhas-visiveis` e `linhas-ocultas`, que
+o Illustrator lê como camadas. O palco mostra exatamente o mesmo SVG que é exportado.
+
+---
+
+### 07 · logo resizer — `/logo-resizer/`
 **O que é:** padroniza **opticamente** o tamanho de várias logos lado a lado — o problema
 clássico da faixa de patrocinadores e parceiros.
 **Exporta:** SVG (vetorial quando o arquivo de origem é SVG), PNG e JPG; logo por logo ou o
@@ -214,7 +253,7 @@ e ver a fileira ficar equilibrada.
 
 ---
 
-### 07 · font defining — `/font-defining/`
+### 08 · font defining — `/font-defining/`
 **O que é:** calcula o tamanho de tipo de cada nível — h1, h2, h3, corpo e legenda — a partir
 do **formato** da peça, da **distância de leitura** e da **quantidade de texto**.
 **Exporta:** CSS, JSON, SVG e PNG.
@@ -229,7 +268,9 @@ do **formato** da peça, da **distância de leitura** e da **quantidade de texto
 3. Informa o **conteúdo**: quantas palavras tem cada nível.
 4. Ajusta a **escala**: automática ou fixa numa razão clássica (de 1,2 a 1,618, a áurea),
    e as entrelinhas.
-5. Exporta os valores.
+5. Escolhe a **fonte de cada nível** — h1 numa família, corpo em outra — e o cálculo mede
+   cada nível na fonte e no peso em que ele vai ser desenhado.
+6. Exporta os valores.
 
 **Momento "uau":** encurtar o título de doze para três palavras e ver o h1 crescer — porque
 cada número vem de uma restrição real, e a ferramenta mostra qual delas mandou.
@@ -299,26 +340,31 @@ minúsculas.
 | gradient maker | PNG, SVG, vídeo, CSS |
 | 3d maker | PNG, SVG, WebM (com transparência) |
 | texture prompts | prompt (copiar/TXT), cartão PNG |
+| wireframe maker | SVG (só traços), PNG, SVG copiado para colar |
 | logo resizer | SVG, PNG, JPG |
 | font defining | CSS, JSON, SVG, PNG |
 
-## 9. Estrutura de roteiro sugerida (~90 s)
+## 9. Estrutura de roteiro sugerida (~100 s)
 
 | Tempo | Cena | Narração (ideia) |
 |---|---|---|
-| 0–8 s | Tela preta, marcas de registro em ciano se desenhando nos cantos; entra "design tools" em Host Grotesk | Abertura: sete ferramentas de design num link só |
+| 0–8 s | Tela preta, marcas de registro em ciano se desenhando nos cantos; entra "design tools" em Host Grotesk | Abertura: oito ferramentas de design num link só |
 | 8–18 s | O menu: a grade de cards aparece, cursor passa e as marcas acendem em ciano | Tudo roda no navegador; nada sai do seu computador; sem instalar, sem cadastro |
 | 18–28 s | grid maker: slider de escalonamento transforma a malha | Grids modulares, exporta SVG pronto para o Illustrator |
 | 28–37 s | bento maker: fotos soltas viram mosaico | Layouts bento com as suas imagens |
 | 37–46 s | gradient maker: mesh com distorção em movimento | Gradientes animados em loop sem emenda, até em código CSS |
 | 46–56 s | 3d maker: logo SVG vira objeto de vidro girando | 3D com fundo transparente, de foto a vídeo |
 | 56–64 s | texture prompts: slider muda a frase do prompt; troca de modelo | Prompts de material no formato de cada IA |
-| 64–72 s | logo resizer: logos desencontradas se equilibram | Logos com o mesmo peso visual |
-| 72–80 s | font defining: título encurta, h1 cresce | O tamanho de tipo certo para a distância de leitura |
-| 80–90 s | Volta ao menu, troca de tema escuro → claro, URL na tela | Chamada final com o endereço |
+| 64–74 s | wireframe maker: arrastar o desenho gira a forma e as linhas de trás somem | Formas 3D em arame, no traço de ilustração técnica |
+| 74–82 s | logo resizer: logos desencontradas se equilibram | Logos com o mesmo peso visual |
+| 82–90 s | font defining: título encurta, h1 cresce | O tamanho de tipo certo para a distância de leitura |
+| 90–100 s | Volta ao menu, troca de tema escuro → claro, URL na tela | Chamada final com o endereço |
 
-**Versão curta (30 s, para Reels/Shorts):** abertura (3 s) → menu (4 s) → um corte de ~3 s
+**Versão curta (30 s, para Reels/Shorts):** abertura (3 s) → menu (4 s) → um corte de ~2,5 s
 por ferramenta mostrando só o "momento uau" → endereço na tela (2 s). Formato vertical 9:16.
+Com oito ferramentas o corte fica apertado; se preferir respiro, escolha as quatro mais
+visuais — gradient maker, 3d maker, wireframe maker e bento maker — e deixe as outras para a
+versão longa.
 
 **Direção visual:** fundo escuro `#0A0A0A`, cortes secos, ciano e magenta só como acento,
 textos na tela em minúsculas. A interface em si não tem animação — o movimento do vídeo vem
@@ -334,3 +380,6 @@ da edição e da arte que as ferramentas produzem.
   não há exportação nativa para Figma ou After Effects; o WebM do 3d maker precisa ser
   convertido para abrir no After Effects).
 - Não usar letras maiúsculas no nome das ferramentas.
+- Não chamar o wireframe maker de modelador 3D: não há edição de vértice, booleanas nem
+  importação de modelo (OBJ, FBX, GLTF). Ele parte de formas paramétricas ou de um SVG.
+- Não dizer que o wireframe maker exporta 3D: a saída é desenho 2D em SVG e PNG.
