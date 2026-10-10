@@ -293,6 +293,8 @@ a.hub-card:hover .hub-card-estado {
 .mini-traco { fill: none; stroke: var(--gm-arte-stroke); stroke-width: 1.5; }
 .mini-contorno { fill: none; stroke: var(--gm-line); stroke-width: 1; }
 .mini-cota { fill: none; stroke: var(--gm-cyan); stroke-width: 1; }
+.mini-arame { fill: none; stroke: var(--gm-arte-stroke); stroke-width: 0.8; opacity: 0.75; }
+.mini-arame--forte { opacity: 1; stroke-width: 1.2; }
 
 /* ---------------------------------------------------------------- quebra */
 @media (max-width: 860px) {

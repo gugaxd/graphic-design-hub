@@ -1,0 +1,19 @@
+/* Reset mínimo. Todo o resto vive no bloco CSS do componente,
+   junto com os tokens do sistema visual. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0a0a0a;
+  -webkit-font-smoothing: antialiased;
+}

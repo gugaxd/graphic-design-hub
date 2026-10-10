@@ -11,7 +11,8 @@ de grade no cabeçalho, sem sair do site.
 /gradient-maker/  gradientes
 /3d-maker/        formas 3D
 /texture-prompts/ prompts de textura
-/logo-resizer/      padronização óptica de logos
+/wireframe-maker/ formas 3D em arame
+/logo-resizer/   padronização óptica de logos
 /font-defining/   escala tipográfica
 ```
 

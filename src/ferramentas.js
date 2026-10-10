@@ -48,6 +48,15 @@ export const FERRAMENTAS = [
     repo: "https://github.com/gugaxd/texture-prompts",
   },
   {
+    id: "wire",
+    nome: "wireframe maker",
+    descricao:
+      "Formas 3D no traço de ilustração técnica: só as linhas que a câmera enxerga, sem preenchimento.",
+    formatos: ["SVG", "PNG"],
+    url: "/wireframe-maker/",
+    repo: null,
+  },
+  {
     id: "logo",
     nome: "logo resizer",
     descricao:

@@ -159,12 +159,36 @@ function Fonte() {
   );
 }
 
+function Wireframe() {
+  /* esfera em arame: meridianos e paralelos, só traço, como a ferramenta desenha */
+  const cx = 80;
+  const cy = 50;
+  const r = 33;
+  const meridianos = [0.18, 0.5, 0.82].map((t) => {
+    const rx = r * Math.cos(Math.PI * t);
+    return <ellipse key={"m" + t} cx={cx} cy={cy} rx={Math.abs(rx)} ry={r} className="mini-arame" />;
+  });
+  const paralelos = [-0.6, -0.25, 0.1, 0.45, 0.78].map((t) => {
+    const y = cy + r * t;
+    const rx = r * Math.sqrt(Math.max(0, 1 - t * t));
+    return <ellipse key={"p" + t} cx={cx} cy={y} rx={rx} ry={rx * 0.26} className="mini-arame" />;
+  });
+  return (
+    <>
+      <circle cx={cx} cy={cy} r={r} className="mini-arame mini-arame--forte" />
+      {meridianos}
+      {paralelos}
+    </>
+  );
+}
+
 const DESENHOS = {
   grid: Grid,
   bento: Bento,
   gradient: Gradient,
   "tres-d": TresD,
   textura: Textura,
+  wire: Wireframe,
   logo: Logo,
   font: Fonte,
 };
