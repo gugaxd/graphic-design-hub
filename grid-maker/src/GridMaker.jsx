@@ -1,6 +1,5 @@
 import { useState, useRef, useMemo, useCallback } from "react";
 import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
 import { MONO, SANS } from "./theme.js";
 
 /* Servido pelo hub em /grid-maker/ — o menu é a raiz do mesmo site. */
@@ -1109,13 +1108,6 @@ div.brand{gap:8px}
           </p>
         </section>
 
-        <Footer
-          theme={C}
-          links={[
-            { label: "bento maker", href: "https://bento-maker-three.vercel.app/" },
-            { label: "gradient maker", href: "https://gradient-maker-peach.vercel.app/" },
-          ]}
-        />
       </aside>
 
       {/* ============================ PALCO ============================ */}

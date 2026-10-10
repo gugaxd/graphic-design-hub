@@ -12,7 +12,6 @@ import {
   Square,
 } from "lucide-react";
 import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
 
 /* Servido pelo hub em /gradient-maker/ — o menu é a raiz do mesmo site. */
 const HUB_URL = "/";
@@ -1148,12 +1147,6 @@ export default function GradientMaker() {
           </p>
         </Secao>
 
-        <Footer
-          links={[
-            { label: "bento maker", href: "https://bento-maker-three.vercel.app/" },
-            { label: "grid maker", href: "https://github.com/gugaxd/gri.d.maker" },
-          ]}
-        />
       </aside>
 
       <main className="gm-main">

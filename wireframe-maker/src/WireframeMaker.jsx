@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Download, Copy, RotateCcw, Shuffle, Eye, EyeOff, Upload } from "lucide-react";
 import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
 import { Cena, renderizar, montarSVG } from "./wireframe.js";
 import { FORMAS, FORMA, padroes, formaSVG } from "./formas.js";
 import { lerSVG } from "./svg-entrada.js";
@@ -760,13 +759,6 @@ export default function WireframeMaker() {
           </p>
         </Secao>
 
-        <Footer
-          links={[
-            { label: "gradient maker", href: "https://github.com/gugaxd/gradient-maker" },
-            { label: "bento maker", href: "https://bento-maker-three.vercel.app/" },
-            { label: "grid maker", href: "https://github.com/gugaxd/gri.d.maker" },
-          ]}
-        />
         </div>
       </aside>
 

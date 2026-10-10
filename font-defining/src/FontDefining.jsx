@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
 
 /* Servido pelo hub em /font-defining/ — o menu é a raiz do mesmo site. */
 const HUB_URL = "/";
@@ -1226,12 +1225,6 @@ export default function FontDefining() {
           )}
         </Secao>
 
-        <Footer
-          links={[
-            { label: "logo sizer", href: "https://github.com/gugaxd" },
-            { label: "grid maker", href: "https://github.com/gugaxd/gri.d.maker" },
-          ]}
-        />
       </aside>
 
       <main className="fs-main">

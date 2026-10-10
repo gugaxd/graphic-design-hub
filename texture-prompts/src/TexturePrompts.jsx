@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
 import { MONO, SANS } from "./theme.js";
 
 /* Servido pelo hub em /texture-prompts/ — o menu é a raiz do mesmo site. */
@@ -641,11 +640,6 @@ export default function TexturePrompts() {
           {status && <p className="hint msg" role="status">{status}</p>}
         </section>
 
-        <Footer links={[
-          { label: "grid maker", href: "https://github.com/gugaxd/gri.d.maker" },
-          { label: "bento maker", href: "https://bento-maker-three.vercel.app/" },
-          { label: "gradient maker", href: "https://gradient-maker-peach.vercel.app/" },
-        ]} />
       </aside>
 
       {/* ============================ PALCO ============================ */}
