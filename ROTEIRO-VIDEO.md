@@ -1,4 +1,4 @@
-# design tools — roteiro de lançamento · 60 s
+# the hub — roteiro de lançamento · 60 s
 
 | | |
 |---|---|
@@ -20,7 +20,7 @@ de cada clipe, para a edição ter folga. Nenhuma captura precisa de áudio.
 ## CENA 1 · 00:00 – 00:04 · abertura
 
 **Imagem** — Tela preta. As quatro marcas de registro em ciano se desenham nos cantos, como
-numa prova de impressão. No centro, a logo do estúdio e, ao lado, "design tools" em
+numa prova de impressão. No centro, a logo do estúdio e, ao lado, "the hub" em
 minúsculas.
 
 **Narração** — "Oito ferramentas de design. Um link só."

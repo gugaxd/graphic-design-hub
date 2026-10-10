@@ -4,7 +4,9 @@ import Footer from "./components/Footer.jsx";
 import Miniatura from "./components/Miniatura.jsx";
 import { FERRAMENTAS, LINKS_RODAPE } from "./ferramentas.js";
 
-const CHAVE_TEMA = "design-tools:tema";
+/* O index.html ainda lê a chave antiga, "design-tools:tema", para quem já tinha
+   escolhido um tema antes de o site se chamar the hub. */
+const CHAVE_TEMA = "the-hub:tema";
 
 function temaInicial() {
   const t = document.documentElement.dataset.tema;
@@ -66,7 +68,7 @@ export default function Hub() {
   return (
     <div className="hub">
       <Header
-        tool="design tools"
+        tool="the hub"
         tema={tema}
         onToggleTema={() => setTema((t) => (t === "escuro" ? "claro" : "escuro"))}
       />

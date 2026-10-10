@@ -1,9 +1,9 @@
 {
-  "name": "design-tools",
+  "name": "the-hub",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Hub das ferramentas de design — grid maker, bento maker, gradient maker, 3d maker, texture prompts, wireframe maker, logo resizer e font defining, num site só.",
+  "description": "the hub — grid maker, bento maker, gradient maker, 3d maker, texture prompts, wireframe maker, logo resizer e font defining, num site só.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

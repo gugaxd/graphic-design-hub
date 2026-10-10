@@ -1,4 +1,4 @@
-# design tools
+# the hub
 
 Um site só, com todas as ferramentas de design: o menu na raiz e cada ferramenta num
 caminho próprio. A pessoa acessa um link, escolhe a ferramenta e volta ao menu pelo botão

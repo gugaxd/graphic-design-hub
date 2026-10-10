@@ -1,7 +1,7 @@
-# design tools — briefing para vídeo explicativo
+# the hub — briefing para vídeo explicativo
 
 > **Para o Claude que vai ler este arquivo:** use este documento como fonte única para criar um
-> vídeo explicativo sobre a plataforma **design tools**. Tudo o que está aqui é fato verificado
+> vídeo explicativo sobre a plataforma **the hub**. Tudo o que está aqui é fato verificado
 > no código. Não invente números, preços, depoimentos, quantidade de usuários ou recursos que
 > não estejam listados. Idioma do vídeo: **português do Brasil**. A seção 9 traz uma estrutura
 > de roteiro sugerida; a seção 10 lista o que evitar.
@@ -10,7 +10,7 @@
 
 ## 1. Em uma frase
 
-**design tools** é um site só, com oito ferramentas de design gráfico que rodam inteiras no
+**the hub** é um site só, com oito ferramentas de design gráfico que rodam inteiras no
 navegador: você abre um link, escolhe a ferramenta, cria e exporta — sem instalar nada e sem
 nenhum arquivo sair do seu computador.
 
@@ -47,7 +47,7 @@ escala de tipo certa.
 ## 4. Como a plataforma funciona (o menu)
 
 **Tela inicial:** cabeçalho com a logo do estúdio, uma barra vertical fina e o nome
-"design tools" em minúsculas. À direita, o botão de tema (sol/lua).
+"the hub" em minúsculas. À direita, o botão de tema (sol/lua).
 
 Abaixo, o título de seção **FERRAMENTAS** (pequeno, em caixa alta, ciano, com uma régua
 horizontal) e a chamada grande "escolha uma ferramenta para começar."
@@ -303,7 +303,7 @@ de registro. É o conceito da marca.
 
 **Tipografia**
 - **Nome das ferramentas / chamadas:** Host Grotesk SemiBold, sempre em **minúsculas**
-  ("grid maker", "design tools"). Arquivo em `src/assets/fonts/HostGrotesk-SemiBold.ttf`.
+  ("grid maker", "the hub"). Arquivo em `src/assets/fonts/HostGrotesk-SemiBold.ttf`.
 - **Texto de interface:** sans de sistema (Segoe UI / SF / Inter).
 - **Números e dados:** monoespaçada. Títulos de seção em mono, caixa alta, bem espaçados.
 
@@ -348,7 +348,7 @@ minúsculas.
 
 | Tempo | Cena | Narração (ideia) |
 |---|---|---|
-| 0–8 s | Tela preta, marcas de registro em ciano se desenhando nos cantos; entra "design tools" em Host Grotesk | Abertura: oito ferramentas de design num link só |
+| 0–8 s | Tela preta, marcas de registro em ciano se desenhando nos cantos; entra "the hub" em Host Grotesk | Abertura: oito ferramentas de design num link só |
 | 8–18 s | O menu: a grade de cards aparece, cursor passa e as marcas acendem em ciano | Tudo roda no navegador; nada sai do seu computador; sem instalar, sem cadastro |
 | 18–28 s | grid maker: slider de escalonamento transforma a malha | Grids modulares, exporta SVG pronto para o Illustrator |
 | 28–37 s | bento maker: fotos soltas viram mosaico | Layouts bento com as suas imagens |
