@@ -14,17 +14,17 @@ Estado em 2026-10-11. O que está marcado eu verifiquei no site publicado
 - [x] Domínio definido: `gh-the-hub.vercel.app`
 - [x] Deploy automático a cada push na `main`
 - [x] Vídeo de lançamento pronto
+- [x] Ícone da aba e ícone de tela inicial
 
 ---
 
 ## Bloqueia o lançamento
 
-### 1. Ícone da aba (favicon)
-`gh-the-hub.vercel.app/favicon.ico` responde **404**. A aba fica com o ícone
-genérico, e é o que aparece nos favoritos e no histórico de quem salvar.
-
-Precisa de um `favicon.svg` (a logo do estúdio serve) em `public/`, mais a linha
-`<link rel="icon" href="/favicon.svg" />` nos nove `index.html`. Eu faço, se quiser.
+### ~~1. Ícone da aba (favicon)~~ — feito
+Logo branca sobre fundo preto, em `public/favicon.svg`, mais o
+`apple-touch-icon.png` de 180px para quando alguém salva o site na tela inicial do
+celular. Os dois ficam ligados nas nove páginas, junto do `theme-color` preto, que
+tinge a barra do navegador no Android. Conferido em 16, 32, 64 e 180 pixels.
 
 ### 2. Prévia do link em rede social
 Não há `og:image`, `og:title` nem `og:description` em nenhuma página. Colado no
