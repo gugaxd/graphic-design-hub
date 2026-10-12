@@ -15,6 +15,7 @@ Estado em 2026-10-11. O que está marcado eu verifiquei no site publicado
 - [x] Deploy automático a cada push na `main`
 - [x] Vídeo de lançamento pronto
 - [x] Ícone da aba e ícone de tela inicial
+- [x] Imagem e metatags de prévia ao compartilhar o link
 
 ---
 
@@ -26,14 +27,17 @@ Logo branca sobre fundo preto, em `public/favicon.svg`, mais o
 celular. Os dois ficam ligados nas nove páginas, junto do `theme-color` preto, que
 tinge a barra do navegador no Android. Conferido em 16, 32, 64 e 180 pixels.
 
-### 2. Prévia do link em rede social
-Não há `og:image`, `og:title` nem `og:description` em nenhuma página. Colado no
-WhatsApp, no LinkedIn ou no X, o link aparece **sem imagem e sem descrição** — só
-a URL crua. Num lançamento com vídeo, isso derruba o clique.
+### ~~2. Prévia do link em rede social~~ — feito
+`public/og.png`, 1200x630, no sistema visual do site: fundo preto, a logo, o nome,
+a lista das oito ferramentas em ciano e o endereço. As metatags Open Graph estão
+nas nove páginas, cada uma com o próprio título e a própria descrição, e o cartão
+grande do X ligado.
 
-Precisa de: uma imagem 1200×630 (dá para fazer no próprio bento maker ou no
-gradient maker), salva em `public/og.png`, e as metatags em cada página. Também
-faço, se quiser.
+Depois do deploy, vale forçar a releitura nos validadores, senão as redes podem
+servir um cache antigo do link:
+- LinkedIn: `linkedin.com/post-inspector`
+- X: `cards-dev.twitter.com/validator`
+- Facebook e WhatsApp: `developers.facebook.com/tools/debug`
 
 ### 3. Conferir o vídeo com o domínio certo
 O roteiro e o briefing foram escritos quando o endereço era
