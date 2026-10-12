@@ -264,11 +264,11 @@ div.brand{gap:8px}
 }
 
 /* --- blocos --- */
-.bt .bloco { position:absolute; overflow:hidden; background-repeat:no-repeat; }
+.bt .bloco { position:absolute; overflow:hidden; background-repeat:no-repeat;  touch-action:none; }
 .bt .pega, .bt .alca {
   position:absolute; opacity:0; background: var(--ink2); border:1px solid var(--line);
   color: var(--text); display:grid; place-items:center; padding:0;
-}
+ touch-action:none; }
 .bt .bloco:hover .pega, .bt .bloco:hover .alca,
 .bt .bloco[data-sel="1"] .pega, .bt .bloco[data-sel="1"] .alca { opacity:1; }
 .bt .pega { cursor:grab; }
@@ -276,12 +276,19 @@ div.brand{gap:8px}
 .bt .alca { cursor:nwse-resize; }
 .bt .guia { position:absolute; pointer-events:none; }
 
+/* Celular e tablet em pé: o painel deixa de ser uma caixa (display:contents),
+   então o cabeçalho e o palco sobem para o topo e grudam lá, enquanto os
+   controles rolam por baixo. O overflow:hidden da raiz anularia o sticky. */
 @media (max-width: 860px) {
-  .bt { height:auto; }
-  .bt .corpo { flex-direction:column; }
-  .bt .painel { width:100%; border-right:0; border-bottom:1px solid var(--line); }
-  .bt .painel.dir { border-left:0; border-top:1px solid var(--line); }
-  .bt .palco { padding:18px; min-height:60vh; }
+  /* tablet em pé: a coluna de controles para de esticar e fica centrada */
+  .bt .painel > *:not(.brand){padding-inline:max(18px,calc((100% - 600px) / 2))}
+  .bt { height:auto; overflow:visible; }
+  .bt .corpo { display:contents; }
+  .bt .painel { display:contents; }
+  .bt .painel > * { order:1; background: var(--ink2); width:100%; }
+  .bt .brand { order:-2; position:sticky; top:0; z-index:7; }
+  .bt .palco { order:-1; position:sticky; top:63px; z-index:6; height:46vh; flex:none;
+    padding:18px; min-height:0; border-bottom:1px solid var(--line); }
 }
 @media (prefers-reduced-motion: reduce) {
   .bt *, .bt *::before, .bt *::after { transition:none !important; animation:none !important; }

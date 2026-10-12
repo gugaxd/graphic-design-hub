@@ -616,11 +616,22 @@ div.brand{gap:8px}
         .empty{font-family:${MONO};font-size:10.5px;color:${C.muted};line-height:1.65;
           letter-spacing:.03em}
 
+        /* Celular e tablet em pé: o painel deixa de ser uma caixa (display:contents),
+           então o cabeçalho e o palco sobem para o topo e grudam lá, enquanto os
+           controles rolam por baixo. Sem isso, o resultado só aparecia depois de
+           duas telas de rolagem. */
         @media (max-width:860px){
-          .app{flex-direction:column;height:auto;min-height:0}
-          .panel{width:100%;flex:none;max-height:none;border-right:none;
-            border-bottom:1px solid ${C.line}}
-          .view{min-height:56vh}
+          /* tablet em pé: a coluna de controles para de esticar e fica centrada */
+          .panel>*:not(.brand){padding-inline:max(18px,calc((100% - 600px) / 2))}
+          /* o overflow:hidden da raiz anularia o sticky do cabeçalho e do palco */
+          .app{flex-direction:column;height:auto;min-height:0;overflow:visible}
+          .panel{display:contents}
+          .brand{order:-2;position:sticky;top:0;z-index:7}
+          .stage{order:-1;position:sticky;top:63px;z-index:6;height:46vh;flex:none;
+            background:${C.ink};border-bottom:1px solid ${C.line}}
+          .view{min-height:0;flex:1}
+          .sec{background:${C.ink2}}
+          .panel>*:not(.brand){order:1}
         }
         @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
       `}</style>

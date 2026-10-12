@@ -190,7 +190,8 @@ input[type=text]{flex:1;background:${C.ink};border:1px solid ${C.line};color:${C
     linear-gradient(45deg,${C.stageAlt} 25%,transparent 25%,transparent 75%,${C.stageAlt} 75%);
   background-size:16px 16px;background-position:0 0,8px 8px;background-color:${C.stage}}
 .frame{position:relative;width:100%;height:100%;box-shadow:0 0 0 1px ${C.line},0 20px 60px ${C.sombra}}
-.frame canvas{display:block;width:100%;height:100%;cursor:grab}
+.frame canvas{display:block;width:100%;height:100%;cursor:grab;
+  touch-action:none;user-select:none}
 .frame canvas:active{cursor:grabbing}
 .reg{position:absolute;width:13px;height:13px;pointer-events:none}
 .reg::before,.reg::after{content:"";position:absolute;background:${C.cyan};opacity:.85}
@@ -225,10 +226,19 @@ input[type=text]{flex:1;background:${C.ink};border:1px solid ${C.line};color:${C
 .rodape a:hover{color:${C.cyan}}
 .rodape a:focus-visible{outline:2px solid ${C.cyan};outline-offset:2px}
 
+  /* Celular e tablet em pé: o painel deixa de ser uma caixa (display:contents),
+     então o cabeçalho e o palco sobem para o topo e grudam lá, enquanto os
+     controles rolam por baixo. O overflow:hidden da raiz anularia o sticky. */
 @media (max-width:860px){
-  .app{flex-direction:column;height:auto;min-height:0}
-  .panel{width:100%;flex:none;max-height:none;border-right:none;border-bottom:1px solid ${C.line}}
-  .view{min-height:56vh}
+  /* tablet em pé: a coluna de controles para de esticar e fica centrada */
+  .panel>*:not(.brand){padding-inline:max(18px,calc((100% - 600px) / 2))}
+  .app{flex-direction:column;height:auto;min-height:0;overflow:visible}
+  .panel{display:contents}
+  .panel>*{order:1;background:${C.ink2};width:100%}
+  .brand{order:-2;position:sticky;top:0;z-index:7}
+  .stage{order:-1;position:sticky;top:63px;z-index:6;height:46vh;flex:none;
+    background:${C.ink};border-bottom:1px solid ${C.line}}
+  .view{min-height:0;flex:1}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
 `;

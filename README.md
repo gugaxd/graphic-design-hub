@@ -44,6 +44,12 @@ Com `url: null` o card aparece como "em breve", sem link.
 A casca é só o `Header`: logo do estúdio, nome da ferramenta em minúsculas, botão de menu e
 botão de tema. As ferramentas não têm rodapé — quem leva de uma para outra é o botão de menu.
 
+Abaixo de 860px — celular e tablet em pé — o painel vira `display:contents`, e com `order` o
+cabeçalho e o palco sobem para o topo, os dois `sticky`, enquanto os controles rolam por
+baixo. A raiz precisa de `overflow:visible` nessa faixa, senão o `sticky` não gruda. Quem
+arrasta no palco (3d maker, wireframe maker, bento maker) precisa de `touch-action:none` no
+alvo, ou o toque rola a página em vez de mover a peça.
+
 ## Rodando localmente
 
 ```bash

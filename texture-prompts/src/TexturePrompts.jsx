@@ -226,9 +226,18 @@ input[type=text]:focus-visible,textarea:focus-visible{outline:2px solid ${C.cyan
   .destaque{grid-template-columns:1fr}
   .quadro{max-width:420px}
 }
+  /* Celular e tablet em pé: o painel deixa de ser uma caixa (display:contents),
+     então o cabeçalho e o palco sobem para o topo e grudam lá, enquanto os
+     controles rolam por baixo. O overflow:hidden da raiz anularia o sticky. */
 @media (max-width:860px){
-  .app{flex-direction:column;height:auto;min-height:0}
-  .panel{width:100%;flex:none;max-height:none;border-right:none;border-bottom:1px solid ${C.line}}
+  /* tablet em pé: a coluna de controles para de esticar e fica centrada */
+  .panel>*:not(.brand){padding-inline:max(18px,calc((100% - 600px) / 2))}
+  .app{flex-direction:column;height:auto;min-height:0;overflow:visible}
+  .panel{display:contents}
+  .panel>*{order:1;background:${C.ink2};width:100%}
+  .brand{order:-2;position:sticky;top:0;z-index:7}
+  .stage{order:-1;position:sticky;top:63px;z-index:6;height:46vh;flex:none;
+    background:${C.ink};border-bottom:1px solid ${C.line}}
   .corpo{padding:20px 16px}
   .bar .dica{display:none}
   .busca{width:100% !important}

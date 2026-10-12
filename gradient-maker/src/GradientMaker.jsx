@@ -633,10 +633,19 @@ a.gm-marca:focus-visible{outline:2px solid var(--gm-cyan);outline-offset:4px}
   font-family:var(--gm-mono);font-size:10.5px;line-height:1.6;padding:12px 18px;display:block}
 .gm-codigo textarea:focus-visible{outline:2px solid var(--gm-cyan);outline-offset:-2px}
 
+  /* Celular e tablet em pé: o painel deixa de ser uma caixa (display:contents),
+     então o cabeçalho e o palco sobem para o topo e grudam lá, enquanto os
+     controles rolam por baixo. O overflow:hidden da raiz anularia o sticky. */
 @media (max-width:860px){
-  .gm-app{flex-direction:column}
-  .gm-painel{width:100%;flex:none;max-height:none;border-right:0;border-bottom:1px solid var(--gm-line)}
-  .gm-documento{max-height:60vh}
+  /* tablet em pé: a coluna de controles para de esticar e fica centrada */
+  .gm-painel>*:not(.gm-cabecalho){padding-inline:max(18px,calc((100% - 600px) / 2))}
+  .gm-app{flex-direction:column;overflow:visible}
+  .gm-painel{display:contents}
+  .gm-painel>*{order:1;background:var(--gm-ink2);width:100%}
+  .gm-cabecalho{order:-2;position:sticky;top:0;z-index:7}
+  .gm-main{order:-1;position:sticky;top:63px;z-index:6;height:46vh;flex:none;
+    background:var(--gm-ink);border-bottom:1px solid var(--gm-line)}
+  .gm-documento{max-height:100%}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important}
